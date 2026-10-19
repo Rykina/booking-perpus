@@ -564,14 +564,14 @@
                 <div class="ticket-card">
                     <div class="ticket-header">
                         <div>
-                            <span style="font-size: 0.75rem; color: var(--text-subtle); text-transform: uppercase;">Bukti Reservasi Fasilitas</span>
-                            <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a;">{{ $b->room->name }}</div>
+                            <span class="ticket-label" style="font-size: 0.75rem; text-transform: uppercase;">Bukti Reservasi Fasilitas</span>
+                            <div class="ticket-value" style="font-size: 1.15rem; font-weight: 800;">{{ $b->room->name }}</div>
                         </div>
                         <div class="status-pill status-menunggu">Menunggu Verifikasi</div>
                     </div>
 
                     <div class="ticket-code-wrap">
-                        <span style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; font-weight: 600;">KODE BOOKING ANDA:</span>
+                        <span class="ticket-label" style="font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; font-weight: 700;">KODE BOOKING ANDA:</span>
                         <div class="ticket-code">{{ $b->booking_code }}</div>
                         <button type="button" class="btn btn-outline btn-pill btn-sm" style="margin-top: 8px;" onclick="copyBookingCode('{{ $b->booking_code }}')">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -584,32 +584,32 @@
 
                     <div class="ticket-details-grid">
                         <div class="ticket-item">
-                            <span>Pemohon</span>
-                            <span>{{ $b->user->name }}</span>
+                            <span class="ticket-label">Pemohon</span>
+                            <span class="ticket-value">{{ $b->user->name }}</span>
                         </div>
                         <div class="ticket-item">
-                            <span>NIM / NIP</span>
-                            <span>{{ $b->user->identity_number }}</span>
+                            <span class="ticket-label">NIM / NIP</span>
+                            <span class="ticket-value">{{ $b->user->identity_number }}</span>
                         </div>
                         <div class="ticket-item">
-                            <span>{{ $b->room->category === 'layar_iklan' ? 'Tanggal Pesanan' : 'Tanggal' }}</span>
-                            <span>{{ $b->booking_date_formatted }}</span>
+                            <span class="ticket-label">{{ $b->room->category === 'layar_iklan' ? 'Tanggal Pesanan' : 'Tanggal' }}</span>
+                            <span class="ticket-value">{{ $b->booking_date_formatted }}</span>
                         </div>
                         @if($b->room->category === 'layar_iklan')
                             <div class="ticket-item">
-                                <span>Periode Tayang</span>
-                                <span>s/d {{ $b->end_date ? $b->end_date_formatted : '-' }}</span>
+                                <span class="ticket-label">Periode Tayang</span>
+                                <span class="ticket-value">s/d {{ $b->end_date ? $b->end_date_formatted : '-' }}</span>
                             </div>
                             @if($b->participant_count > 1)
                                 <div class="ticket-item">
-                                    <span>Target Audiens</span>
-                                    <span>{{ number_format($b->participant_count) }} Penonton / Hari</span>
+                                    <span class="ticket-label">Target Audiens</span>
+                                    <span class="ticket-value">{{ number_format($b->participant_count) }} Penonton / Hari</span>
                                 </div>
                             @endif
                         @else
                             <div class="ticket-item">
-                                <span>Waktu</span>
-                                <span>
+                                <span class="ticket-label">Waktu</span>
+                                <span class="ticket-value">
                                     @if($b->is_full_day)
                                         <span class="ticket-fullday-badge">⭐ 1 Hari Penuh</span> ({{ substr($b->start_time, 0, 5) }} - {{ substr($b->end_time, 0, 5) }} WIB)
                                     @else
@@ -621,19 +621,19 @@
                     </div>
                 </div>
 
-                <div style="background: var(--accent-emerald-light); border-left: 3px solid var(--accent-emerald); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; color: #166534; margin-bottom: 20px;">
+                <div class="ticket-info-alert" style="background: rgba(16, 185, 129, 0.12); border-left: 3px solid var(--accent-emerald); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; color: #15803d; margin-bottom: 20px;">
                     <strong>Petunjuk:</strong> Harap simpan atau salin kode booking di atas. Anda dapat menggunakan kode tersebut sewaktu-waktu di menu <em>Cek Status</em> untuk memantau proses verifikasi.
                 </div>
 
                 <div style="display: flex; gap: 10px;">
-                    <button type="button" class="btn btn-outline btn-pill btn-block" onclick="window.print()">
+                    <a href="{{ route('booking.print', ['code' => $b->booking_code]) }}" target="_blank" class="btn btn-outline btn-pill btn-block" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 6 2 18 2 18 9"></polyline>
                             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                             <rect x="6" y="14" width="12" height="8"></rect>
                         </svg>
-                        Cetak Bukti
-                    </button>
+                        <span>Cetak Bukti Resmi</span>
+                    </a>
                     <button type="button" class="btn btn-primary btn-pill btn-block" onclick="closeTicketModal()">
                         Selesai
                     </button>

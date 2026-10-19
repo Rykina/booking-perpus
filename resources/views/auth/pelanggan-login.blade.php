@@ -14,7 +14,7 @@
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
             </div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 4px 0;">Portal Pelanggan</h2>
+            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">Portal Pelanggan</h2>
             <p style="font-size: 0.85rem; color: #e0e7ff; margin: 0;">Perpustakaan & Galeri Kota Bogor</p>
             <div style="display: inline-block; margin-top: 10px; background: rgba(255,255,255,0.2); padding: 3px 12px; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;">
                 LAYANAN RESERVASI & KONSULTASI MASYARAKAT

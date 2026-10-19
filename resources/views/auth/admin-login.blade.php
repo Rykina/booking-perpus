@@ -14,7 +14,7 @@
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
             </div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 4px 0;">Panel Pegawai & Petugas (Administrator)</h2>
+            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">Panel Pegawai & Petugas (Administrator)</h2>
             <p style="font-size: 0.82rem; color: #94a3b8; margin: 0;">Dinas Kearsipan dan Perpustakaan Kota Bogor</p>
             <div style="display: inline-block; margin-top: 10px; background: rgba(59, 130, 246, 0.25); color: #93c5fd; padding: 3px 12px; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;">
                 AKSES KHUSUS SUPER ADMIN & ADMIN

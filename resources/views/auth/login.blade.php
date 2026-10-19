@@ -18,7 +18,7 @@
                     <path d="M2 10l10-6 10 6"></path>
                 </svg>
             </div>
-            <h2 style="font-size: 1.3rem; font-weight: 800; margin: 0 0 4px 0;">Perpustakaan & Galeri Kota Bogor</h2>
+            <h2 style="font-size: 1.3rem; font-weight: 800; margin: 0 0 4px 0; color: #ffffff;">Perpustakaan & Galeri Kota Bogor</h2>
             <p style="font-size: 0.84rem; color: #e0e7ff; margin: 0;">Portal Layanan Reservasi & Panel Pegawai</p>
         </div>
 

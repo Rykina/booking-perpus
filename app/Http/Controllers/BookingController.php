@@ -240,6 +240,20 @@ class BookingController extends Controller
     }
 
     /**
+     * Cetak Surat Bukti Reservasi Resmi (Format Dokumen / Surat Dinas).
+     */
+    public function printProof(Request $request, $code)
+    {
+        $code = trim($code);
+
+        $booking = Booking::with(['room', 'user'])
+            ->where('booking_code', $code)
+            ->firstOrFail();
+
+        return view('booking.print-proof', compact('booking'));
+    }
+
+    /**
      * Halaman Riwayat Pemesanan / Pelacakan Riwayat Booking.
      */
     public function history(Request $request)

@@ -244,7 +244,7 @@
     <div style="max-width: 540px; width: 100%; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: modalIn 0.2s ease;">
         <div style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); padding: 20px 24px; color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
             <div>
-                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800;">+ Tambah Anggota Admin Baru</h3>
+                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #ffffff;">+ Tambah Anggota Admin Baru</h3>
                 <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #e9d5ff;">Buat akun petugas atau super admin perpustakaan.</p>
             </div>
             <button type="button" onclick="closeAddAdminModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
@@ -331,7 +331,7 @@
     <div style="max-width: 540px; width: 100%; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: modalIn 0.2s ease;">
         <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 20px 24px; color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
             <div>
-                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800;">Edit Data & Peran Pengguna</h3>
+                <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #ffffff;">Edit Data & Peran Pengguna</h3>
                 <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: #94a3b8;">Ubah peran akun antara Super Admin, Admin, atau Pelanggan.</p>
             </div>
             <button type="button" onclick="closeEditAdminModal()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>

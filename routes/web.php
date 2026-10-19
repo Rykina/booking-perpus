@@ -25,6 +25,9 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 // Cek Status Peminjaman dengan Kode Booking
 Route::get('/cek-booking', [BookingController::class, 'checkStatus'])->name('booking.check');
 
+// Cetak Surat Bukti Reservasi Resmi
+Route::get('/booking/cetak/{code}', [BookingController::class, 'printProof'])->name('booking.print');
+
 // Halaman Riwayat Pemesanan / Pelacakan Booking
 Route::get('/riwayat', [BookingController::class, 'history'])->name('booking.history');
 
@@ -95,6 +98,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // 3. Layanan Chat Pelanggan
     Route::get('/chats', [ChatController::class, 'adminIndex'])->name('chat.index');
+    Route::get('/chats/search-users', [ChatController::class, 'adminSearchUsers'])->name('chat.search_users');
+    Route::post('/chats/start', [ChatController::class, 'adminStartChat'])->name('chat.start');
     Route::post('/chats/{id}/reply', [ChatController::class, 'adminReplyMessage'])->name('chat.reply');
     Route::get('/chats/{id}/messages', [ChatController::class, 'adminFetchMessages'])->name('chat.messages');
 

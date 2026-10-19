@@ -11,6 +11,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Instant Dark Mode Detection (Zero-FOUC) -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('booking_perpus_theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.classList.add('dark-mode');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.classList.remove('dark-mode');
+            }
+        })();
+    </script>
+    
     <!-- Vanilla CSS Design System with Cache-Buster -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
     
@@ -62,20 +76,23 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      margin: 0 auto !important;
-      flex-shrink: 1 !important;
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      margin: 0 !important;
     }
     .nav-links {
-      display: flex !important;
+      display: inline-flex !important;
       align-items: center !important;
-      gap: 2px !important;
+      gap: 3px !important;
       list-style: none !important;
       background: #f8fafc !important;
-      padding: 3px !important;
+      padding: 3px 6px !important;
       border-radius: 9999px !important;
       border: 1px solid #e2e8f0 !important;
       box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02) !important;
       margin: 0 !important;
+      flex-shrink: 0 !important;
+      white-space: nowrap !important;
     }
     .nav-link {
       font-size: 0.8125rem !important;
@@ -281,23 +298,29 @@
     .btn-logout-link:hover {
       color: #ef4444 !important;
     }
-    @media (max-width: 1300px) {
+    @media (max-width: 1400px) {
       .btn-text-nav {
         display: none !important;
       }
       .btn-search-pill,
       .btn-history-pill {
-        padding: 5px 8px !important;
+        padding: 5px 9px !important;
+      }
+      .btn-logout-text {
+        display: none !important;
+      }
+      .btn-logout-pill {
+        padding: 4px 6px !important;
       }
       .nav-links {
         gap: 2px !important;
       }
       .nav-link {
         padding: 4px 9px !important;
-        font-size: 0.78rem !important;
+        font-size: 0.79rem !important;
       }
     }
-    @media (max-width: 1150px) {
+    @media (max-width: 1200px) {
       .brand-subtitle {
         display: none !important;
       }
@@ -306,10 +329,13 @@
       }
       .nav-link {
         padding: 4px 8px !important;
-        font-size: 0.76rem !important;
+        font-size: 0.77rem !important;
       }
       .navbar .nav-inner {
         gap: 8px !important;
+      }
+      .user-name-label {
+        max-width: 65px !important;
       }
     }
     @media (max-width: 1024px) {
@@ -321,7 +347,8 @@
       .nav-center {
         display: none !important;
       }
-      .btn-search-pill {
+      .btn-search-pill,
+      .btn-history-pill {
         display: none !important;
       }
       .nav-toggle {
@@ -400,6 +427,7 @@
             </nav>
 
             <div class="nav-actions">
+                @if(!Auth::check() || !Auth::user()->isAdmin())
                 <a href="{{ route('booking.history') }}" class="btn-history-pill {{ request()->routeIs('booking.history') ? 'active' : '' }}" id="btnHeaderRiwayat" title="Lihat Riwayat Pemesanan Anda">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -415,6 +443,7 @@
                     </svg>
                     <span class="btn-text-nav">Status</span>
                 </button>
+                @endif
                 <button type="button" class="btn btn-primary btn-pill btn-header-cta" id="btnHeaderAjukan" onclick="openBookingModal()" title="Ajukan Booking Ruangan">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -422,6 +451,7 @@
                     </svg>
                     <span>Booking</span>
                 </button>
+
 
                 @auth
                     @php
@@ -459,7 +489,7 @@
                                     <polyline points="16 17 21 12 16 7"></polyline>
                                     <line x1="21" y1="12" x2="9" y2="12"></line>
                                 </svg>
-                                <span>Keluar</span>
+                                <span class="btn-logout-text">Keluar</span>
                             </button>
                         </form>
                     </div>
@@ -650,11 +680,49 @@
     <!-- Floating Customer Chat Widget -->
     @include('partials.customer-chat')
 
+    <!-- Floating Dark Mode Toggle (Bottom-Left) -->
+    <button type="button" id="floatingThemeToggleBtn" class="btn-theme-floating" onclick="toggleThemeMode()" aria-label="Ganti Mode Gelap / Terang" title="Ganti Mode Gelap / Terang">
+        <span class="theme-icon-light" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </span>
+        <span class="theme-icon-dark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </span>
+    </button>
+
     <!-- Modals (Booking, Cek Status, Ticket) -->
     @include('partials.booking-modals')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        function toggleThemeMode() {
+            var html = document.documentElement;
+            var currentTheme = html.getAttribute('data-theme') || 'light';
+            var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            if (newTheme === 'dark') {
+                html.classList.add('dark-mode');
+            } else {
+                html.classList.remove('dark-mode');
+            }
+            try {
+                localStorage.setItem('booking_perpus_theme', newTheme);
+            } catch (e) {}
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

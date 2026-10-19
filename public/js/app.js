@@ -806,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="ticket-card" style="margin-top: 18px;">
               <div class="ticket-header">
                 <div>
-                  <span style="font-size: 0.75rem; color: var(--text-subtle); text-transform: uppercase; font-weight: 600;">Kode Reservasi</span>
+                  <span class="ticket-label" style="font-size: 0.75rem; text-transform: uppercase;">Kode Reservasi</span>
                   <div style="font-size: 1.35rem; font-weight: 800; color: var(--primary); font-family: monospace;">${b.booking_code}</div>
                 </div>
                 <div class="status-pill ${statusClass}">${b.status}</div>
@@ -814,51 +814,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
               <div class="ticket-details-grid">
                 <div class="ticket-item">
-                  <span>Fasilitas</span>
-                  <span>${b.room.name}</span>
+                  <span class="ticket-label">Fasilitas</span>
+                  <span class="ticket-value">${b.room.name}</span>
                 </div>
                 <div class="ticket-item">
-                  <span>Lokasi</span>
-                  <span>${b.room.floor}</span>
+                  <span class="ticket-label">Lokasi</span>
+                  <span class="ticket-value">${b.room.floor}</span>
                 </div>
                 <div class="ticket-item">
-                  <span>Pemohon</span>
-                  <span>${b.user.name}</span>
+                  <span class="ticket-label">Pemohon</span>
+                  <span class="ticket-value">${b.user.name}</span>
                 </div>
                 <div class="ticket-item">
-                  <span>${isLayar ? 'Tanggal Pesanan' : 'Tanggal Booking'}</span>
-                  <span>${bookingDateDisplay}</span>
+                  <span class="ticket-label">${isLayar ? 'Tanggal Pesanan' : 'Tanggal Booking'}</span>
+                  <span class="ticket-value">${bookingDateDisplay}</span>
                 </div>
                 ${!isLayar ? `
                 <div class="ticket-item">
-                  <span>Waktu</span>
-                  <span>${b.start_time.substring(0, 5)} - ${b.end_time.substring(0, 5)} WIB</span>
+                  <span class="ticket-label">Waktu</span>
+                  <span class="ticket-value">${b.start_time.substring(0, 5)} - ${b.end_time.substring(0, 5)} WIB</span>
                 </div>
                 <div class="ticket-item">
-                  <span>Peserta</span>
-                  <span>${b.participant_count} Orang</span>
+                  <span class="ticket-label">Peserta</span>
+                  <span class="ticket-value">${b.participant_count} Orang</span>
                 </div>
                 ` : `
                 ${b.participant_count > 1 ? `
                 <div class="ticket-item">
-                  <span>Target Audiens</span>
-                  <span>${b.participant_count} Penonton / Hari</span>
+                  <span class="ticket-label">Target Audiens</span>
+                  <span class="ticket-value">${b.participant_count} Penonton / Hari</span>
                 </div>
                 ` : ''}
                 `}
               </div>
 
-              <div style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed #e2e8f0;">
-                <span style="font-size: 0.75rem; color: var(--text-subtle); display: block; margin-bottom: 2px; font-weight: 600;">Keperluan:</span>
-                <p style="font-size: 0.88rem; color: #334155;">${b.purpose}</p>
+              <div class="ticket-purpose-section" style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed #cbd5e1;">
+                <span class="ticket-label" style="display: block; margin-bottom: 2px;">Keperluan:</span>
+                <p class="ticket-purpose-text" style="font-size: 0.9rem; line-height: 1.5; margin: 0;">${b.purpose}</p>
               </div>
 
               ${b.admin_notes ? `
-              <div style="margin-top: 12px; background: #eff6ff; border-left: 3px solid var(--primary); padding: 10px 14px; border-radius: 4px;">
-                <span style="font-size: 0.72rem; color: #1e40af; font-weight: 700; text-transform: uppercase;">Catatan Petugas:</span>
-                <p style="font-size: 0.85rem; color: #1e3a8a; margin-top: 2px;">${b.admin_notes}</p>
+              <div class="ticket-admin-notes" style="margin-top: 12px; padding: 10px 14px; border-radius: 4px;">
+                <span class="ticket-admin-notes-lbl" style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase;">Catatan Petugas:</span>
+                <p class="ticket-admin-notes-text" style="font-size: 0.88rem; margin: 2px 0 0 0;">${b.admin_notes}</p>
               </div>
               ` : ''}
+
+              <div style="display: flex; gap: 8px; margin-top: 14px;">
+                <button type="button" class="btn btn-outline btn-sm btn-pill" onclick="copyBookingCode('${b.booking_code}')" style="flex: 1;">
+                  Salin Kode
+                </button>
+                <a href="/booking/cetak/${b.booking_code}" target="_blank" class="btn btn-primary btn-sm btn-pill" style="flex: 1.3; text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                  <span>🖨️ Cetak Bukti Resmi</span>
+                </a>
+              </div>
             </div>
           `;
         } else {
