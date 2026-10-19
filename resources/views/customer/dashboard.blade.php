@@ -180,25 +180,15 @@
                                     </td>
                                     <td style="padding: 16px 16px;">
                                         @if($item->status === 'disetujui')
-                                            <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: #dcfce7; color: #15803d; font-size: 0.74rem; font-weight: 700;">
-                                                Disetujui
-                                            </span>
+                                            <span class="status-badge status-disetujui">Disetujui</span>
                                         @elseif($item->status === 'menunggu')
-                                            <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: #fef3c7; color: #b45309; font-size: 0.74rem; font-weight: 700;">
-                                                Menunggu Verifikasi
-                                            </span>
+                                            <span class="status-badge status-menunggu">Menunggu Verifikasi</span>
                                         @elseif($item->status === 'ditolak')
-                                            <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: #fee2e2; color: #b91c1c; font-size: 0.74rem; font-weight: 700;">
-                                                Ditolak
-                                            </span>
+                                            <span class="status-badge status-ditolak">Ditolak</span>
                                         @elseif($item->status === 'selesai')
-                                            <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: #eff6ff; color: #1d4ed8; font-size: 0.74rem; font-weight: 700;">
-                                                Selesai
-                                            </span>
+                                            <span class="status-badge status-selesai">Selesai</span>
                                         @else
-                                            <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; background: #f1f5f9; color: #64748b; font-size: 0.74rem; font-weight: 700;">
-                                                {{ ucfirst($item->status) }}
-                                            </span>
+                                            <span class="status-badge status-dibatalkan">{{ ucfirst($item->status) }}</span>
                                         @endif
 
                                         @if($item->admin_notes)
@@ -207,10 +197,15 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td style="padding: 16px 20px; text-align: right;">
-                                        <a href="{{ route('booking.check', ['code' => $item->booking_code]) }}" class="btn btn-outline btn-sm" style="border-radius: 9999px; text-decoration: none; padding: 5px 12px; font-size: 0.78rem; font-weight: 700;">
-                                            Cek Status
-                                        </a>
+                                    <td style="padding: 16px 20px; text-align: right; white-space: nowrap;">
+                                        <div style="display: inline-flex; gap: 6px;">
+                                            <a href="{{ route('booking.print', ['code' => $item->booking_code]) }}" target="_blank" class="btn btn-outline btn-sm" style="border-radius: 9999px; text-decoration: none; padding: 5px 12px; font-size: 0.78rem; font-weight: 700;" title="Cetak Surat Bukti">
+                                                🖨️ Cetak
+                                            </a>
+                                            <a href="{{ route('booking.check', ['code' => $item->booking_code]) }}" class="btn btn-outline btn-sm" style="border-radius: 9999px; text-decoration: none; padding: 5px 12px; font-size: 0.78rem; font-weight: 700;">
+                                                Cek Status
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

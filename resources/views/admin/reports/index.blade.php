@@ -243,7 +243,7 @@
                                 {{ $b->room->category === 'layar_iklan' ? '-' : $b->participant_count . ' Orang' }}
                             </td>
                             <td style="padding: 12px 14px;">
-                                <span style="display: inline-block; padding: 3px 8px; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; background: #e2e8f0; color: #334155;">
+                                <span class="status-badge status-{{ strtolower($b->status) }}">
                                     {{ $b->status }}
                                 </span>
                             </td>

@@ -207,7 +207,7 @@
 
                             <!-- Status -->
                             <td style="padding: 14px 16px; vertical-align: top;">
-                                <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; {{ $statusBg[$b->status] ?? '' }}">
+                                <span class="status-badge status-{{ strtolower($b->status) }}" style="{{ $statusBg[$b->status] ?? '' }}">
                                     {{ $b->status }}
                                 </span>
                             </td>
@@ -245,6 +245,12 @@
                                     <a href="{{ route('admin.chat.index') }}" title="Chat dengan pemohon" 
                                        style="width: 30px; height: 30px; border-radius: 50%; background: #eff6ff; color: #1a73e8; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid #bfdbfe;">
                                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                    </a>
+
+                                    <!-- Print Surat Bukti button -->
+                                    <a href="{{ route('booking.print', ['code' => $b->booking_code]) }}" target="_blank" title="Cetak Surat Bukti Resmi" 
+                                       style="width: 30px; height: 30px; border-radius: 50%; background: #f8fafc; color: #475569; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid #cbd5e1;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                                     </a>
 
                                 </div>

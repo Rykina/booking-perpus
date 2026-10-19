@@ -117,9 +117,43 @@ class ChatController extends Controller
      */
     public function adminIndex(Request $request)
     {
-        $conversations = ChatConversation::with(['user', 'latestMessage'])
-            ->orderBy('last_message_at', 'desc')
+        $search = trim($request->get('search', ''));
+        $conversationsQuery = ChatConversation::with(['user', 'latestMessage']);
+
+        if (!empty($search)) {
+            $conversationsQuery->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone_number', 'like', "%{$search}%")
+                  ->orWhere('identity_number', 'like', "%{$search}%");
+            });
+        }
+
+        $conversations = $conversationsQuery->orderBy('last_message_at', 'desc')->get();
+
+        // Ambil daftar pengguna terdaftar untuk dipilih admin saat ingin chat baru
+        $availableUsers = User::where('id', '!=', Auth::id())
+            ->orderBy('name', 'asc')
+            ->take(50)
             ->get();
+
+        $userIds = $availableUsers->pluck('id')->toArray();
+        $existingConversations = ChatConversation::whereIn('user_id', $userIds)
+            ->pluck('id', 'user_id')
+            ->toArray();
+
+        // Jika admin memilih pengguna via query param user_id (memulai chat langsung)
+        $targetUserId = $request->get('user_id');
+        if ($targetUserId) {
+            $targetUser = User::find($targetUserId);
+            if ($targetUser) {
+                $conv = ChatConversation::firstOrCreate(
+                    ['user_id' => $targetUser->id, 'status' => 'active'],
+                    ['last_message_at' => now()]
+                );
+                return redirect()->route('admin.chat.index', ['conversation_id' => $conv->id]);
+            }
+        }
 
         $activeConversationId = $request->get('conversation_id');
         $selectedConversation = null;
@@ -161,7 +195,104 @@ class ChatController extends Controller
             ]);
         }
 
-        return view('admin.chat.index', compact('conversations', 'selectedConversation', 'messages'));
+        return view('admin.chat.index', compact(
+            'conversations', 
+            'selectedConversation', 
+            'messages', 
+            'availableUsers', 
+            'existingConversations',
+            'search'
+        ));
+    }
+
+    /**
+     * Cari pengguna terdaftar secara dinamis via AJAX (untuk modal Chat Baru).
+     */
+    public function adminSearchUsers(Request $request)
+    {
+        $q = trim($request->get('q', ''));
+        $currentUserId = Auth::id();
+
+        $query = User::where('id', '!=', $currentUserId);
+
+        if (!empty($q)) {
+            $query->where(function ($sub) use ($q) {
+                $sub->where('name', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%")
+                    ->orWhere('phone_number', 'like', "%{$q}%")
+                    ->orWhere('identity_number', 'like', "%{$q}%");
+            });
+        }
+
+        $users = $query->orderBy('name', 'asc')->take(30)->get();
+        $userIds = $users->pluck('id')->toArray();
+        $existingConversations = ChatConversation::whereIn('user_id', $userIds)
+            ->pluck('id', 'user_id')
+            ->toArray();
+
+        return response()->json([
+            'success' => true,
+            'users' => $users->map(function ($u) use ($existingConversations) {
+                return [
+                    'id' => $u->id,
+                    'name' => $u->name,
+                    'email' => $u->email,
+                    'phone_number' => $u->phone_number,
+                    'identity_number' => $u->identity_number,
+                    'role_label' => $u->role_label,
+                    'avatar' => $u->avatar,
+                    'has_conversation' => isset($existingConversations[$u->id]),
+                    'conversation_id' => $existingConversations[$u->id] ?? null,
+                ];
+            }),
+        ]);
+    }
+
+    /**
+     * Memulai percakapan chat baru dari admin ke pengguna tertentu.
+     */
+    public function adminStartChat(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'message' => 'nullable|string|max:2000',
+        ], [
+            'user_id.required' => 'Pilih pengguna terlebih dahulu.',
+            'user_id.exists' => 'Pengguna tidak ditemukan dalam sistem.',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+        /** @var \App\Models\User $admin */
+        $admin = Auth::user();
+
+        // Cari atau buat percakapan aktif dengan pengguna yang dipilih
+        $conversation = ChatConversation::firstOrCreate(
+            ['user_id' => $user->id, 'status' => 'active'],
+            ['last_message_at' => now()]
+        );
+
+        // Jika admin juga langsung menulis pesan pertama
+        if ($request->filled('message')) {
+            ChatMessage::create([
+                'conversation_id' => $conversation->id,
+                'sender_id' => $admin->id,
+                'message' => trim($request->message),
+                'is_read' => false,
+            ]);
+            $conversation->update(['last_message_at' => now()]);
+        }
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'conversation_id' => $conversation->id,
+                'redirect_url' => route('admin.chat.index', ['conversation_id' => $conversation->id]),
+                'message' => 'Percakapan berhasil dimulai.',
+            ]);
+        }
+
+        return redirect()->route('admin.chat.index', ['conversation_id' => $conversation->id])
+            ->with('success', 'Percakapan dengan ' . $user->name . ' telah dimulai.');
     }
 
     /**

@@ -12,7 +12,7 @@
                 SISTEM INFORMASI PELAYANAN FASILITAS & CHAT
             </span>
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
-                <h1 style="font-size: 1.6rem; font-weight: 800; margin: 0;">Selamat Datang, {{ Auth::user()->name }}</h1>
+                <h1 style="font-size: 1.6rem; font-weight: 800; margin: 0; color: #ffffff;">Selamat Datang, {{ Auth::user()->name }}</h1>
                 @if(Auth::user()->isSuperAdmin())
                     <span style="background: rgba(243, 232, 255, 0.95); color: #7e22ce; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 9999px;">👑 Super Admin</span>
                 @else

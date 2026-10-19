@@ -317,6 +317,10 @@
                             <div class="hcard-footer">
                                 <span class="hcard-time-created">Diajukan: {{ $item->created_at->format('d M Y, H:i') }} WIB</span>
                                 <div class="hcard-actions">
+                                    <a href="{{ route('booking.print', ['code' => $item->booking_code]) }}" target="_blank" class="btn btn-outline btn-sm btn-pill" title="Cetak Surat Bukti Resmi">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                        <span>Cetak Surat</span>
+                                    </a>
                                     <a href="{{ route('booking.check', ['code' => $item->booking_code]) }}" class="btn btn-outline btn-sm btn-pill">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                         <span>Detail Tiket</span>

@@ -20,8 +20,10 @@ class GoogleController extends Controller
     {
         /** @var \App\Models\User|null $user */
         $user = Auth::user();
-        if ($user && !$user->isAdmin()) {
-            return redirect()->route('pelanggan.dashboard');
+        if ($user) {
+            return $user->isAdmin()
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('pelanggan.dashboard');
         }
 
         return view('auth.pelanggan-login');
@@ -48,14 +50,22 @@ class GoogleController extends Controller
             $user = Auth::user();
             $request->session()->regenerate();
 
-            // Jika yang login adalah admin/super admin, arahkan ke dashboard admin
+            // Jika yang login adalah admin/super admin/petugas, arahkan ke dashboard admin
             if ($user->isAdmin()) {
-                $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : 'Admin';
-                return redirect()->intended(route('admin.dashboard'))
+                $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : ($user->role === 'petugas' ? 'Petugas' : 'Admin');
+                return redirect()->route('admin.dashboard')
                     ->with('success', 'Selamat bertugas, ' . $user->name . ' (' . $roleTitle . ')!');
             }
 
-            return redirect()->intended(route('pelanggan.dashboard'))
+            // Jika pelanggan, pastikan intended bukan rute admin
+            $intended = session()->get('url.intended');
+            if ($intended && !str_contains($intended, '/admin')) {
+                return redirect()->intended(route('pelanggan.dashboard'))
+                    ->with('success', 'Selamat datang, ' . $user->name . '! Anda berhasil masuk ke Portal Pelanggan.');
+            }
+
+            session()->forget('url.intended');
+            return redirect()->route('pelanggan.dashboard')
                 ->with('success', 'Selamat datang, ' . $user->name . '! Anda berhasil masuk ke Portal Pelanggan.');
         }
 
@@ -170,13 +180,20 @@ class GoogleController extends Controller
                 $request->session()->regenerateToken();
 
                 return back()->withInput($request->only('email'))
-                    ->withErrors(['email' => 'Akses ditolak. Halaman login ini khusus untuk Admin dan Super Admin. Pelanggan silakan masuk melalui Portal Pelanggan.']);
+                    ->withErrors(['email' => 'Akses ditolak. Halaman login ini khusus untuk Pegawai & Administrator. Pelanggan silakan masuk melalui Portal Pelanggan.']);
             }
 
             $request->session()->regenerate();
-            $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : 'Admin';
+            $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : ($user->role === 'petugas' ? 'Petugas' : 'Admin');
 
-            return redirect()->intended(route('admin.dashboard'))
+            $intended = session()->get('url.intended');
+            if ($intended && str_contains($intended, '/admin')) {
+                return redirect()->intended(route('admin.dashboard'))
+                    ->with('success', 'Selamat bertugas, ' . $user->name . ' (' . $roleTitle . ')!');
+            }
+
+            session()->forget('url.intended');
+            return redirect()->route('admin.dashboard')
                 ->with('success', 'Selamat bertugas, ' . $user->name . ' (' . $roleTitle . ')!');
         }
 
@@ -262,12 +279,19 @@ class GoogleController extends Controller
 
         // Arahkan sesuai role
         if ($user->isAdmin()) {
-            $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : 'Admin';
-            return redirect()->intended(route('admin.dashboard'))
+            $roleTitle = $user->isSuperAdmin() ? 'Super Admin' : ($user->role === 'petugas' ? 'Petugas' : 'Admin');
+            return redirect()->route('admin.dashboard')
                 ->with('success', 'Selamat datang kembali, ' . $user->name . ' (' . $roleTitle . ')!');
         }
 
-        return redirect()->intended(route('pelanggan.dashboard'))
+        $intended = session()->get('url.intended');
+        if ($intended && !str_contains($intended, '/admin')) {
+            return redirect()->intended(route('pelanggan.dashboard'))
+                ->with('success', 'Selamat datang, ' . $user->name . '! Anda berhasil masuk ke Portal Pelanggan.');
+        }
+
+        session()->forget('url.intended');
+        return redirect()->route('pelanggan.dashboard')
             ->with('success', 'Selamat datang, ' . $user->name . '! Anda berhasil masuk ke Portal Pelanggan.');
     }
 
