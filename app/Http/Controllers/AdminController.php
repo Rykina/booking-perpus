@@ -140,7 +140,9 @@ class AdminController extends Controller
             'selesai' => Booking::where('status', 'selesai')->count(),
         ];
 
-        $bookings = $query->paginate(15)->withQueryString();
+        /** @var \Illuminate\Pagination\LengthAwarePaginator $bookings */
+        $bookings = $query->paginate(15);
+        $bookings->appends($request->query());
         $rooms = Room::all();
 
         return view('admin.bookings.index', compact('bookings', 'rooms', 'statusCounts', 'search', 'status', 'roomId', 'dateFrom', 'dateTo'));
@@ -156,16 +158,18 @@ class AdminController extends Controller
             'admin_notes' => 'nullable|string|max:1000',
         ]);
 
+        /** @var \App\Models\Booking $booking */
         $booking = Booking::with('room')->findOrFail($id);
 
         $oldStatus = $booking->status;
         $newStatus = $request->status;
 
         // Jika disetujui, periksa bentrok jadwal untuk ruangan
-        if ($newStatus === 'disetujui' && $oldStatus !== 'disetujui' && $booking->room->category === 'ruangan') {
+        if ($newStatus === 'disetujui' && $oldStatus !== 'disetujui' && $booking->room && $booking->room->category === 'ruangan') {
+            $bookingDateStr = $booking->booking_date ? Carbon::parse($booking->booking_date)->toDateString() : '';
             $conflict = Booking::where('room_id', $booking->room_id)
                 ->where('id', '!=', $booking->id)
-                ->where('booking_date', $booking->booking_date->toDateString())
+                ->where('booking_date', $bookingDateStr)
                 ->where('status', 'disetujui')
                 ->where(function ($q) use ($booking) {
                     $q->where(function ($sub) use ($booking) {
@@ -243,6 +247,10 @@ class AdminController extends Controller
             $startDate = $startDateParam ? Carbon::parse($startDateParam)->startOfDay() : now()->subDays(30)->startOfDay();
             $endDate = $endDateParam ? Carbon::parse($endDateParam)->endOfDay() : now()->endOfDay();
             $periodLabel = 'Rentang Khusus: ' . $startDate->format('d/m/Y') . ' - ' . $endDate->format('d/m/Y');
+        } else {
+            $startDate = Carbon::createFromDate($yearParam, $monthParam, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($yearParam, $monthParam, 1)->endOfMonth();
+            $periodLabel = 'Bulanan: ' . $startDate->translatedFormat('F Y');
         }
 
         $query->whereBetween('booking_date', [$startDate->toDateString(), $endDate->toDateString()]);
@@ -431,13 +439,14 @@ class AdminController extends Controller
             }
         }
 
+        /** @var \Illuminate\Pagination\LengthAwarePaginator $adminUsers */
         $adminUsers = $query->orderByRaw("CASE 
             WHEN role IN ('super_admin', 'superadmin') THEN 1 
             WHEN role IN ('admin', 'petugas') THEN 2 
             ELSE 3 END")
             ->orderBy('name', 'asc')
-            ->paginate(15)
-            ->withQueryString();
+            ->paginate(15);
+        $adminUsers->appends($request->query());
 
         $totalSuperAdmins = User::whereIn('role', ['super_admin', 'superadmin'])->count();
         $totalRegularAdmins = User::whereIn('role', ['admin', 'petugas'])->count();

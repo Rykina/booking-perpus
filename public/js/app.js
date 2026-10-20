@@ -615,14 +615,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!berandaLink) return;
 
-    const sections = [
-      { id: 'panduan', link: alurLink },
-      { id: 'alur', link: alurLink },
-      { id: 'jadwal', link: jadwalLink },
-      { id: 'ketersediaan', link: jadwalLink },
-      { id: 'fasilitas', link: fasilitasLink }
-    ];
-
     const allNavLinks = [berandaLink, fasilitasLink, jadwalLink, alurLink].filter(Boolean);
 
     function setActive(activeEl) {
@@ -630,33 +622,64 @@ document.addEventListener('DOMContentLoaded', () => {
       if (activeEl) {
         activeEl.classList.add('active');
       }
+
+      // Also sync mobile navigation if open
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+      mobileNavLinks.forEach(mLink => {
+        mLink.classList.remove('active');
+        const h = mLink.getAttribute('href') || '';
+        if (activeEl === berandaLink && (h === '/beranda' || h === '/' || (!h.includes('#') && !h.includes('riwayat')))) {
+          mLink.classList.add('active');
+        } else if (activeEl === fasilitasLink && h.includes('#fasilitas')) {
+          mLink.classList.add('active');
+        } else if (activeEl === jadwalLink && h.includes('#jadwal')) {
+          mLink.classList.add('active');
+        } else if (activeEl === alurLink && h.includes('#panduan')) {
+          mLink.classList.add('active');
+        }
+      });
+    }
+
+    function getAbsoluteTop(el) {
+      if (!el) return 0;
+      const rect = el.getBoundingClientRect();
+      return rect.top + (window.pageYOffset || document.documentElement.scrollTop);
     }
 
     function onScrollSpy() {
-      const fasilitasEl = document.getElementById('fasilitas');
-      if (!fasilitasEl) return;
+      const fasilitasSec = document.getElementById('fasilitas');
+      const jadwalSec = document.getElementById('ketersediaan') || document.getElementById('jadwal');
+      const panduanSec = document.getElementById('alur') || document.getElementById('panduan');
 
-      const scrollY = window.scrollY || window.pageYOffset;
-      if (scrollY < 200) {
+      if (!fasilitasSec) return;
+
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+      // When near top of the page (< 220px), highlight Beranda
+      if (scrollY < 220) {
         setActive(berandaLink);
         return;
       }
 
-      const scrollPos = scrollY + 160;
-      let matched = null;
-      for (const sec of sections) {
-        const el = document.getElementById(sec.id);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPos >= top) {
-            matched = sec.link;
-            break;
-          }
-        }
+      // When scrolled near bottom of page, highlight Panduan (the final section)
+      const isAtBottom = (window.innerHeight + scrollY) >= (document.documentElement.scrollHeight - 60);
+      if (isAtBottom && alurLink) {
+        setActive(alurLink);
+        return;
       }
 
-      if (matched) {
-        setActive(matched);
+      const scrollPos = scrollY + 160;
+
+      const panduanTop = getAbsoluteTop(panduanSec);
+      const jadwalTop = getAbsoluteTop(jadwalSec);
+      const fasilitasTop = getAbsoluteTop(fasilitasSec);
+
+      if (panduanTop && scrollPos >= panduanTop) {
+        setActive(alurLink);
+      } else if (jadwalTop && scrollPos >= jadwalTop) {
+        setActive(jadwalLink);
+      } else if (fasilitasTop && scrollPos >= fasilitasTop) {
+        setActive(fasilitasLink);
       } else {
         setActive(berandaLink);
       }
@@ -673,13 +696,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
 
+    // Run on initial load and resize
+    window.addEventListener('resize', onScrollSpy, { passive: true });
+    requestAnimationFrame(onScrollSpy);
+
     // In-page smooth scrolling when clicking navbar items on /beranda
     allNavLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href') || '';
         const hashIdx = href.indexOf('#');
 
-        if (link === berandaLink && (window.location.pathname === '/beranda' || window.location.pathname === '/')) {
+        if (link === berandaLink && (window.location.pathname === '/beranda' || window.location.pathname === '/' || window.location.pathname === '')) {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setActive(berandaLink);
@@ -689,17 +716,33 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        if (hashIdx !== -1 && (window.location.pathname === '/beranda' || window.location.pathname === '/')) {
+        if (hashIdx !== -1 && (window.location.pathname === '/beranda' || window.location.pathname === '/' || window.location.pathname === '')) {
           const targetId = href.substring(hashIdx + 1);
-          const targetEl = document.getElementById(targetId) || 
-                           (targetId === 'jadwal' ? document.getElementById('ketersediaan') : null) ||
-                           (targetId === 'panduan' ? document.getElementById('alur') : null);
+          let targetEl = null;
+          if (targetId === 'fasilitas') {
+            targetEl = document.getElementById('fasilitas');
+          } else if (targetId === 'jadwal') {
+            targetEl = document.getElementById('ketersediaan') || document.getElementById('jadwal');
+          } else if (targetId === 'panduan') {
+            targetEl = document.getElementById('alur') || document.getElementById('panduan');
+          } else {
+            targetEl = document.getElementById(targetId);
+          }
+
           if (targetEl) {
             e.preventDefault();
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const headerOffset = 75;
+            const elementPosition = getAbsoluteTop(targetEl);
+            const offsetPosition = elementPosition - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+
             setActive(link);
             if (window.history.pushState) {
-              window.history.pushState(null, null, '/beranda#' + targetId);
+              window.history.pushState(null, null, window.location.pathname + '#' + targetId);
             }
           }
         }
@@ -709,10 +752,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle hash on page load
     if (window.location.hash) {
       const hash = window.location.hash.replace('#', '');
-      const targetSec = sections.find(s => s.id === hash);
-      if (targetSec && targetSec.link) {
-        setActive(targetSec.link);
-      }
+      if (hash === 'fasilitas') setActive(fasilitasLink);
+      else if (hash === 'jadwal' || hash === 'ketersediaan') setActive(jadwalLink);
+      else if (hash === 'panduan' || hash === 'alur') setActive(alurLink);
     }
   }
 

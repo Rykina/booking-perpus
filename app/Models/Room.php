@@ -5,6 +5,39 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string|null $code
+ * @property string $category
+ * @property int|string|null $floor
+ * @property int|null $capacity
+ * @property string|null $facilities
+ * @property string|null $description
+ * @property string|null $image
+ * @property string $status
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read string $card_image
+ * @property-read array $gallery_images
+ * @property-read string $display_name
+ * @property-read string $badge_label
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $total_bookings
+ * @property-read int|null $pending_bookings
+ * @property-read int|null $approved_bookings
+ * @method static \Illuminate\Database\Eloquent\Collection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room withCount($relations)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room with($relations)
+ * @method static Room|null find($id, $columns = ['*'])
+ * @method static Room findOrFail($id, $columns = ['*'])
+ * @method static int count($columns = '*')
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Query\Builder
+ */
 class Room extends Model
 {
     use HasFactory;
