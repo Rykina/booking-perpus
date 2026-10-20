@@ -501,6 +501,20 @@
                         <span class="btn-text-nav">Riwayat</span>
                         <span class="history-count-badge" id="headerHistoryBadge" style="display: none;">0</span>
                     </a>
+                    <!-- Button Notifikasi Pelanggan (Di Samping Tombol Riwayat) -->
+                    <button type="button" class="btn-notification-pill" id="btnHeaderNotifikasi"
+                        onclick="toggleNotificationModal(event)" title="Notifikasi Status Persetujuan Ruangan">
+                        <div class="notif-bell-icon-wrap">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span class="notif-pulse-dot" id="headerNotifPulseDot" style="display: none;"></span>
+                        </div>
+                        <span class="btn-text-nav">Notifikasi</span>
+                        <span class="history-count-badge notif-count-badge" id="headerNotifBadge" style="display: none;">0</span>
+                    </button>
                     <button type="button" class="btn-search-pill" id="btnHeaderCekStatus"
                         onclick="openStatusModal()" title="Cek Status Pengajuan Booking">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -634,6 +648,19 @@
                             onclick="closeMobileNav()">
                             <span>Riwayat Booking</span>
                             <span class="history-count-badge" id="mobileHistoryBadge" style="display: none;">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="mobile-nav-link"
+                            onclick="closeMobileNav(); openNotificationModal();">
+                            <span style="display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                                <span>Notifikasi Ruangan</span>
+                            </span>
+                            <span class="history-count-badge notif-count-badge" id="mobileNotifBadge" style="display: none;">0</span>
                         </a>
                     </li>
                 </ul>
@@ -824,6 +851,9 @@
 
     <!-- Modals (Booking, Cek Status, Ticket) -->
     @include('partials.booking-modals')
+
+    <!-- Jendela Notifikasi Pelanggan (Modal Window) -->
+    @include('partials.customer-notification-modal')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
