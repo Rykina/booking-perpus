@@ -21,13 +21,13 @@
 
                 <h1 class="hero-title">
                     Reservasi Ruangan &<br>
-                    <span class="hero-title-highlight">Videotron</span><br>
+                    <span class="hero-title-highlight">Fasilitas</span><br>
                     Perpustakaan Dan Galeri<br>
                     Kota Bogor
                 </h1>
 
                 <p class="hero-description">
-                    Ajukan izin peminjaman Auditorium, Ruang Multimedia, Ruang Rapat eksekutif, hingga slot penayangan poster/video promosi pada Videotron Lobi Perpustakaan Dan Galeri Kota Bogor secara terpadu dan transparan.
+                    Ajukan izin peminjaman Auditorium, Ruang Multimedia, Ruang Rapat eksekutif, hingga Lobi Luar Perpustakaan Dan Galeri Kota Bogor secara terpadu dan transparan.
                 </p>
 
                 <div class="hero-actions">
@@ -53,12 +53,13 @@
                         <span>Cek Jam & Hari Kosong</span>
                     </a>
 
-                    <a href="#fasilitas" class="btn btn-outline btn-pill hero-btn-sub" id="btnHeroKatalog">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    <a href="#fasilitas" class="btn btn-outline btn-pill hero-btn-sub" id="btnHeroRuangan">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"></path>
+                            <path d="M2 20h20"></path>
+                            <path d="M14 12v.01"></path>
                         </svg>
-                        <span>Lihat Katalog</span>
+                        <span>Lihat Ruangan</span>
                     </a>
                 </div>
             </div>
@@ -224,6 +225,12 @@
                                     <circle cx="9" cy="7" r="4"></circle>
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            @elseif(str_contains(strtolower($room->name), 'lobi'))
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 21h18"></path>
+                                    <path d="M4 21V10l8-6 8 6v11"></path>
+                                    <path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path>
                                 </svg>
                             @else
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -411,15 +418,15 @@
                     <span class="tile-label">Jam Operasional Fasilitas</span>
                 </div>
 
-                <div class="rule-mini-tile tile-purple" onclick="openRulesDetailModal('videotron')" title="Klik untuk rincian tata tertib">
-                    <div class="tile-icon icon-purple">
+                <div class="rule-mini-tile tile-blue" onclick="openRulesDetailModal('lobi')" title="Klik untuk rincian tata tertib">
+                    <div class="tile-icon icon-blue">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                            <path d="M3 21h18"></path>
+                            <path d="M4 21V10l8-6 8 6v11"></path>
+                            <path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path>
                         </svg>
                     </div>
-                    <span class="tile-label">Penayangan Videotron Lobi</span>
+                    <span class="tile-label">Peminjaman Lobi Luar</span>
                 </div>
 
                 <div class="rule-mini-tile tile-green" onclick="openRulesDetailModal('pengajuan')" title="Klik untuk rincian tata tertib">
@@ -700,7 +707,7 @@
                 </div>
                 <div class="step-body">
                     <h4 class="step-title">Pilih Fasilitas</h4>
-                    <p class="step-text">Tentukan fasilitas yang Anda butuhkan (Auditorium, Ruang Multimedia, Ruang Rapat, atau Videotron Lobi).</p>
+                    <p class="step-text">Tentukan fasilitas yang Anda butuhkan (Auditorium, Ruang Multimedia, Ruang Rapat, atau Lobi Luar).</p>
                 </div>
                 <div class="step-connector-arrow">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">

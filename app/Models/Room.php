@@ -74,8 +74,8 @@ class Room extends Model
             return asset('images/rooms/multimedia/multimedia1.jpeg');
         } elseif ($id == 3 || str_contains($code, 'RRP') || str_contains($name, 'rapat')) {
             return asset('images/rooms/rapat/ruangrapat1.jpg');
-        } elseif ($id == 4 || str_contains($code, 'LYR') || str_contains($name, 'videotron')) {
-            return asset('images/rooms/videotron/videotron1.jpeg');
+        } elseif ($id == 4 || str_contains($code, 'LOB') || str_contains($name, 'lobi') || str_contains($code, 'LYR') || str_contains($name, 'videotron')) {
+            return asset('images/gedung-perpus-bogor-real.jpg');
         }
 
         return $this->image ?: asset('images/gedung-perpus-bogor-real.jpg');
@@ -106,10 +106,10 @@ class Room extends Model
                 asset('images/rooms/rapat/ruangrapat1.jpg'),
                 asset('images/rooms/rapat/ruangrapat2.jpg'),
             ];
-        } elseif ($id == 4 || str_contains($code, 'LYR') || str_contains($name, 'videotron')) {
+        } elseif ($id == 4 || str_contains($code, 'LOB') || str_contains($name, 'lobi') || str_contains($code, 'LYR') || str_contains($name, 'videotron')) {
             return [
+                asset('images/gedung-perpus-bogor-real.jpg'),
                 asset('images/rooms/videotron/videotron1.jpeg'),
-                asset('images/rooms/videotron/videotron2.jpeg'),
             ];
         }
 
@@ -121,8 +121,11 @@ class Room extends Model
      */
     public function getDisplayNameAttribute(): string
     {
+        if (str_contains(strtolower($this->name), 'lobi') || $this->id == 4) {
+            return 'Lobi Luar';
+        }
         if ($this->category === 'layar_iklan' || str_contains(strtolower($this->name), 'videotron')) {
-            return 'Videotron Lobi';
+            return 'Lobi Luar';
         }
         return $this->name;
     }
@@ -132,6 +135,9 @@ class Room extends Model
      */
     public function getBadgeLabelAttribute(): string
     {
+        if (str_contains(strtolower($this->name), 'lobi') || $this->id == 4) {
+            return 'AREA TERBUKA';
+        }
         return $this->category === 'layar_iklan' ? 'LAYANAN VIDEOTRON' : 'RUANGAN PERTEMUAN';
     }
 
@@ -140,10 +146,10 @@ class Room extends Model
      */
     public function getCapacityTextAttribute(): string
     {
-        if ($this->category === 'layar_iklan') {
+        if ($this->category === 'layar_iklan' && !str_contains(strtolower($this->name), 'lobi') && $this->id != 4) {
             return '-';
         }
-        return $this->capacity . ' Orang';
+        return ($this->capacity ?: 50) . ' Orang';
     }
 
     /**
@@ -160,7 +166,9 @@ class Room extends Model
             return 'PC, Headset, LCD';
         } elseif ($id == 3 || str_contains($name, 'rapat')) {
             return 'TV 65", Kamera 360°';
-        } elseif ($id == 4 || $this->category === 'layar_iklan') {
+        } elseif ($id == 4 || str_contains($name, 'lobi')) {
+            return 'Kanopi, Meja, Listrik';
+        } elseif ($this->category === 'layar_iklan') {
             return 'Full HD (1080p)';
         }
 
