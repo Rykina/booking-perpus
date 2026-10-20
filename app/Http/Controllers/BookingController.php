@@ -380,6 +380,118 @@ class BookingController extends Controller
         ]);
     }
 
+    /**
+     * API Notifikasi Status Persetujuan Reservasi untuk Pelanggan (Jendela Notifikasi).
+     */
+    public function customerNotifications(Request $request)
+    {
+        $codes = $request->get('codes', []);
+        if (is_string($codes)) {
+            $codes = array_filter(array_map('trim', explode(',', $codes)));
+        }
+
+        $query = Booking::with(['room', 'user']);
+
+        if (Auth::check() && !Auth::user()->isAdmin()) {
+            $user = Auth::user();
+            $query->where(function ($q) use ($user, $codes) {
+                $q->where('user_id', $user->id)
+                  ->orWhereHas('user', function ($u) use ($user) {
+                      $u->where('email', $user->email);
+                      if (!empty($user->identity_number)) {
+                          $u->orWhere('identity_number', $user->identity_number);
+                      }
+                  });
+                if (!empty($codes)) {
+                    $q->orWhereIn('booking_code', $codes);
+                }
+            });
+        } elseif (!empty($codes)) {
+            $query->whereIn('booking_code', $codes);
+        } else {
+            return response()->json([
+                'success' => true,
+                'notifications' => [],
+                'counts' => [
+                    'total' => 0,
+                    'disetujui' => 0,
+                    'ditolak' => 0,
+                    'menunggu' => 0,
+                    'selesai' => 0,
+                    'unread' => 0,
+                ],
+            ]);
+        }
+
+        $bookings = $query->orderBy('updated_at', 'desc')->take(25)->get();
+
+        $notifications = $bookings->map(function ($b) {
+            $statusTitles = [
+                'disetujui' => 'Permohonan Disetujui',
+                'ditolak' => 'Permohonan Belum Disetujui / Ditolak',
+                'menunggu' => 'Sedang Dalam Verifikasi Petugas',
+                'selesai' => 'Reservasi Selesai',
+                'dibatalkan' => 'Reservasi Dibatalkan',
+            ];
+
+            $statusMessages = [
+                'disetujui' => 'Selamat! Permohonan penggunaan ' . ($b->room ? $b->room->name : 'ruangan') . ' Anda telah disetujui petugas perpustakaan.',
+                'ditolak' => 'Mohon maaf, permohonan reservasi ' . ($b->room ? $b->room->name : 'ruangan') . ' belum dapat disetujui.',
+                'menunggu' => 'Permohonan Anda sedang diperiksa oleh petugas layanan fasilitas perpustakaan.',
+                'selesai' => 'Agenda peminjaman fasilitas telah selesai dilaksanakan. Terima kasih telah menggunakan fasilitas kami.',
+                'dibatalkan' => 'Permohonan reservasi ini telah dibatalkan.',
+            ];
+
+            $dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            $monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            $dateObj = $b->booking_date;
+            $dayName = $dayNames[$dateObj->dayOfWeek] ?? '';
+            $dateFormatted = $dayName . ', ' . $dateObj->day . ' ' . ($monthNames[$dateObj->month] ?? '') . ' ' . $dateObj->year;
+
+            $timeFormatted = '';
+            if ($b->start_time && $b->end_time) {
+                $timeFormatted = substr($b->start_time, 0, 5) . ' – ' . substr($b->end_time, 0, 5) . ' WIB';
+            }
+
+            return [
+                'id' => $b->id,
+                'booking_code' => $b->booking_code,
+                'room_id' => $b->room_id,
+                'room_name' => $b->room ? $b->room->name : 'Ruangan Perpustakaan',
+                'room_floor' => $b->room ? $b->room->floor : '',
+                'room_image' => $b->room ? $b->room->card_image : asset('images/gedung-perpus-bogor-real.jpg'),
+                'status' => $b->status,
+                'status_title' => $statusTitles[$b->status] ?? ucfirst($b->status),
+                'status_message' => $statusMessages[$b->status] ?? '',
+                'booking_date' => $b->booking_date->format('Y-m-d'),
+                'booking_date_formatted' => $dateFormatted,
+                'time_formatted' => $timeFormatted,
+                'is_full_day' => (bool)$b->is_full_day,
+                'participant_count' => $b->participant_count,
+                'purpose' => $b->purpose,
+                'admin_notes' => $b->admin_notes,
+                'created_at_human' => $b->created_at ? $b->created_at->diffForHumans() : '',
+                'updated_at_human' => $b->updated_at ? $b->updated_at->diffForHumans() : '',
+                'updated_at_timestamp' => $b->updated_at ? $b->updated_at->timestamp : 0,
+                'print_url' => route('booking.print', ['code' => $b->booking_code]),
+            ];
+        });
+
+        $counts = [
+            'total' => $notifications->count(),
+            'disetujui' => $notifications->where('status', 'disetujui')->count(),
+            'ditolak' => $notifications->where('status', 'ditolak')->count(),
+            'menunggu' => $notifications->where('status', 'menunggu')->count(),
+            'selesai' => $notifications->where('status', 'selesai')->count(),
+        ];
+
+        return response()->json([
+            'success' => true,
+            'notifications' => $notifications,
+            'counts' => $counts,
+        ]);
+    }
 
     /**
      * Ambil daftar jadwal slot ketersediaan (hari dan jam) untuk fasilitas pada tanggal tertentu (API).

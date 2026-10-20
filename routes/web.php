@@ -34,6 +34,9 @@ Route::get('/riwayat', [BookingController::class, 'history'])->name('booking.his
 // API Riwayat Pemesanan (Pencarian & LocalStorage Sync)
 Route::match(['get', 'post'], '/api/booking-history', [BookingController::class, 'apiHistory'])->name('api.booking.history');
 
+// API Notifikasi Persetujuan Reservasi Pelanggan (Jendela Notifikasi)
+Route::match(['get', 'post'], '/api/customer-notifications', [BookingController::class, 'customerNotifications'])->name('api.customer.notifications');
+
 // API Cek Jadwal Slot Ruangan
 Route::get('/api/room-slots', [BookingController::class, 'getRoomSlots'])->name('api.room.slots');
 

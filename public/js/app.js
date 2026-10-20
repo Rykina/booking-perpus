@@ -1680,3 +1680,428 @@ window.updatePurposeCounter = function (el) {
   }
 };
 
+/* ==========================================================================
+   FITUR JENDELA NOTIFIKASI PERSETUJUAN RUANGAN PELANGGAN
+   ========================================================================== */
+let _customerNotifsData = [];
+let _activeNotifFilter = 'all';
+let _isNotifFetching = false;
+
+window.openNotificationModal = function () {
+  const modal = document.getElementById('customerNotifModal');
+  const btn = document.getElementById('btnHeaderNotifikasi');
+  if (modal) {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (btn) btn.classList.add('active');
+    window.fetchCustomerNotifications();
+  }
+};
+
+window.closeNotificationModal = function () {
+  const modal = document.getElementById('customerNotifModal');
+  const btn = document.getElementById('btnHeaderNotifikasi');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (btn) btn.classList.remove('active');
+  }
+};
+
+window.toggleNotificationModal = function (e) {
+  if (e) e.stopPropagation();
+  const modal = document.getElementById('customerNotifModal');
+  if (modal && modal.classList.contains('open')) {
+    window.closeNotificationModal();
+  } else {
+    window.openNotificationModal();
+  }
+};
+
+window.handleNotifBackdropClick = function (e) {
+  if (e.target && e.target.id === 'customerNotifModal') {
+    window.closeNotificationModal();
+  }
+};
+
+window.fetchCustomerNotifications = async function (isManualRefresh = false) {
+  if (_isNotifFetching) return;
+  _isNotifFetching = true;
+
+  const refreshIcon = document.getElementById('notifRefreshIcon');
+  if (refreshIcon && isManualRefresh) {
+    refreshIcon.style.animation = 'spin 0.8s linear infinite';
+  }
+
+  const loadingState = document.getElementById('notifLoadingState');
+  const itemsList = document.getElementById('notifItemsList');
+  const emptyState = document.getElementById('notifEmptyState');
+
+  if (isManualRefresh || (_customerNotifsData.length === 0 && loadingState)) {
+    if (loadingState) loadingState.style.display = 'flex';
+    if (itemsList) itemsList.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
+  }
+
+  try {
+    let storedCodes = [];
+    try {
+      const raw = localStorage.getItem('library_booking_history');
+      storedCodes = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(storedCodes)) storedCodes = [];
+    } catch (e) {
+      storedCodes = [];
+    }
+
+    const queryParams = new URLSearchParams();
+    if (storedCodes.length > 0) {
+      queryParams.set('codes', storedCodes.join(','));
+    }
+
+    const res = await fetch(`/api/customer-notifications?${queryParams.toString()}`, {
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+
+    if (data.success) {
+      _customerNotifsData = data.notifications || [];
+      const counts = data.counts || { total: 0, disetujui: 0, ditolak: 0, menunggu: 0 };
+
+      // Update Tab Counts
+      const countAllEl = document.getElementById('notifTabCountAll');
+      const countApprovedEl = document.getElementById('notifTabCountApproved');
+      const countRejectedEl = document.getElementById('notifTabCountRejected');
+      const countPendingEl = document.getElementById('notifTabCountPending');
+
+      if (countAllEl) countAllEl.textContent = counts.total;
+      if (countApprovedEl) countApprovedEl.textContent = counts.disetujui;
+      if (countRejectedEl) countRejectedEl.textContent = counts.ditolak;
+      if (countPendingEl) countPendingEl.textContent = counts.menunggu;
+
+      // Update Unread Notification Badges
+      window.updateCustomerNotifBadgeCount();
+
+      // Render Notification List
+      window.renderCustomerNotifications();
+
+      if (isManualRefresh && typeof showToast === 'function') {
+        showToast('Notifikasi reservasi berhasil diperbarui.');
+      }
+    }
+  } catch (err) {
+    console.warn('Gagal memuat notifikasi:', err);
+    if (isManualRefresh && typeof showToast === 'function') {
+      showToast('Gagal memuat notifikasi, coba sesaat lagi.');
+    }
+  } finally {
+    _isNotifFetching = false;
+    if (refreshIcon) refreshIcon.style.animation = '';
+    if (loadingState) loadingState.style.display = 'none';
+  }
+};
+
+window.renderCustomerNotifications = function () {
+  const loadingState = document.getElementById('notifLoadingState');
+  const itemsList = document.getElementById('notifItemsList');
+  const emptyState = document.getElementById('notifEmptyState');
+
+  if (!itemsList) return;
+  if (loadingState) loadingState.style.display = 'none';
+
+  let filtered = _customerNotifsData;
+  if (_activeNotifFilter !== 'all') {
+    filtered = _customerNotifsData.filter(item => item.status === _activeNotifFilter);
+  }
+
+  if (filtered.length === 0) {
+    itemsList.innerHTML = '';
+    itemsList.style.display = 'none';
+    if (emptyState) {
+      emptyState.style.display = 'block';
+      const descEl = emptyState.querySelector('.notif-empty-desc');
+      if (descEl) {
+        if (_activeNotifFilter === 'disetujui') {
+          descEl.innerHTML = 'Belum ada permohonan ruangan yang berstatus <strong>Disetujui</strong>.';
+        } else if (_activeNotifFilter === 'ditolak') {
+          descEl.innerHTML = 'Tidak ada permohonan yang <strong>Ditolak</strong>.';
+        } else if (_activeNotifFilter === 'menunggu') {
+          descEl.innerHTML = 'Tidak ada permohonan yang sedang dalam status <strong>Menunggu</strong>.';
+        } else {
+          descEl.innerHTML = 'Setelah Anda mengajukan permohonan ruangan, pembaruan apakah ruangan <strong>disetujui</strong> atau <strong>ditolak</strong> oleh petugas perpustakaan akan langsung muncul di jendela ini.';
+        }
+      }
+    }
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = 'none';
+  itemsList.style.display = 'flex';
+
+  let readNotifs = [];
+  try {
+    const raw = localStorage.getItem('customer_read_notifs');
+    readNotifs = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(readNotifs)) readNotifs = [];
+  } catch (e) {
+    readNotifs = [];
+  }
+
+  const html = filtered.map(item => {
+    const notifKey = `${item.booking_code}_${item.status}_${item.updated_at_timestamp}`;
+    const isRead = readNotifs.includes(notifKey);
+
+    let badgeClass = 'badge-menunggu';
+    let badgeText = 'Menunggu';
+    let badgeIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+
+    if (item.status === 'disetujui') {
+      badgeClass = 'badge-disetujui';
+      badgeText = 'Disetujui';
+      badgeIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+    } else if (item.status === 'ditolak') {
+      badgeClass = 'badge-ditolak';
+      badgeText = 'Ditolak';
+      badgeIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+    } else if (item.status === 'selesai') {
+      badgeClass = 'badge-selesai';
+      badgeText = 'Selesai';
+      badgeIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+    }
+
+    let actionButtonsHtml = '';
+    if (item.status === 'disetujui') {
+      actionButtonsHtml = `
+        <a href="${item.print_url}" target="_blank" rel="noopener" class="btn-notif-action btn-notif-print" title="Buka dan cetak surat bukti izin reservasi resmi">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>Cetak Bukti Izin</span>
+        </a>
+        <button type="button" class="btn-notif-action btn-notif-detail" onclick="closeNotificationModal(); openStatusModalWithCode('${item.booking_code}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Detail Jadwal</span>
+        </button>
+      `;
+    } else if (item.status === 'ditolak') {
+      actionButtonsHtml = `
+        <button type="button" class="btn-notif-action btn-notif-detail" onclick="closeNotificationModal(); openStatusModalWithCode('${item.booking_code}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Lihat Alasan Lengkap</span>
+        </button>
+        <button type="button" class="btn-notif-action btn-notif-chat" onclick="closeNotificationModal(); if(window.toggleCustomerChat) window.toggleCustomerChat(); else document.getElementById('chatLauncherBtn')?.click();">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Tanya Petugas</span>
+        </button>
+      `;
+    } else {
+      actionButtonsHtml = `
+        <button type="button" class="btn-notif-action btn-notif-detail" onclick="closeNotificationModal(); openStatusModalWithCode('${item.booking_code}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Cek Posisi Verifikasi</span>
+        </button>
+      `;
+    }
+
+    let notesCalloutHtml = '';
+    if (item.admin_notes && item.admin_notes.trim()) {
+      const calloutType = item.status === 'disetujui' ? 'callout-disetujui' : (item.status === 'ditolak' ? 'callout-ditolak' : 'callout-menunggu');
+      const label = item.status === 'ditolak' ? 'Catatan / Alasan Petugas:' : 'Catatan Petugas:';
+      notesCalloutHtml = `
+        <div class="notif-admin-notes-callout ${calloutType}">
+          <strong>${label}</strong> ${escapeHtml(item.admin_notes)}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="notif-item-card status-${item.status}">
+        <div class="notif-card-top">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="notif-badge-pill ${badgeClass}">
+              ${badgeIcon}
+              <span>${badgeText}</span>
+            </span>
+            ${!isRead && (item.status === 'disetujui' || item.status === 'ditolak') ? '<span class="notif-dot dot-red" title="Pembaruan Baru"></span>' : ''}
+          </div>
+          <span class="notif-time-ago">${item.updated_at_human || item.created_at_human}</span>
+        </div>
+
+        <div class="notif-card-room-row">
+          <div class="notif-room-name">
+            <span>🏛️</span>
+            <span>${escapeHtml(item.room_name)}</span>
+            ${item.room_floor ? `<span style="font-size:0.75rem; font-weight:600; color:#64748b;">(${escapeHtml(item.room_floor)})</span>` : ''}
+          </div>
+          <button type="button" class="notif-code-copy-btn" onclick="copyBookingCode('${item.booking_code}')" title="Klik untuk menyalin kode">
+            #${item.booking_code}
+          </button>
+        </div>
+
+        <div class="notif-schedule-row">
+          <span class="notif-schedule-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            ${item.booking_date_formatted}
+          </span>
+          ${item.time_formatted ? `
+            <span class="notif-schedule-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              ${item.time_formatted}
+            </span>
+          ` : ''}
+        </div>
+
+        <div class="notif-card-message">
+          ${item.status_message}
+        </div>
+
+        ${notesCalloutHtml}
+
+        <div class="notif-card-actions">
+          ${actionButtonsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  itemsList.innerHTML = html;
+};
+
+window.filterCustomerNotifs = function (status, btn) {
+  _activeNotifFilter = status;
+  document.querySelectorAll('.notif-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  window.renderCustomerNotifications();
+};
+
+window.markAllNotificationsRead = function () {
+  let readNotifs = [];
+  try {
+    const raw = localStorage.getItem('customer_read_notifs');
+    readNotifs = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(readNotifs)) readNotifs = [];
+  } catch (e) {
+    readNotifs = [];
+  }
+
+  _customerNotifsData.forEach(item => {
+    const key = `${item.booking_code}_${item.status}_${item.updated_at_timestamp}`;
+    if (!readNotifs.includes(key)) {
+      readNotifs.push(key);
+    }
+  });
+
+  try {
+    localStorage.setItem('customer_read_notifs', JSON.stringify(readNotifs.slice(-100)));
+  } catch (e) {}
+
+  window.updateCustomerNotifBadgeCount();
+  window.renderCustomerNotifications();
+
+  if (typeof showToast === 'function') {
+    showToast('Semua notifikasi ditandai sudah dilihat.');
+  }
+};
+
+window.updateCustomerNotifBadgeCount = function () {
+  const headerBadge = document.getElementById('headerNotifBadge');
+  const pulseDot = document.getElementById('headerNotifPulseDot');
+  const headerPulse = document.getElementById('notifHeaderPulse');
+  const mobileBadge = document.getElementById('mobileNotifBadge');
+
+  let readNotifs = [];
+  try {
+    const raw = localStorage.getItem('customer_read_notifs');
+    readNotifs = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(readNotifs)) readNotifs = [];
+  } catch (e) {
+    readNotifs = [];
+  }
+
+  const unreadItems = _customerNotifsData.filter(item => {
+    const key = `${item.booking_code}_${item.status}_${item.updated_at_timestamp}`;
+    return !readNotifs.includes(key) && (item.status === 'disetujui' || item.status === 'ditolak');
+  });
+
+  const unreadCount = unreadItems.length;
+  const totalCount = _customerNotifsData.length;
+
+  if (unreadCount > 0) {
+    if (headerBadge) {
+      headerBadge.textContent = unreadCount;
+      headerBadge.classList.add('has-unread');
+      headerBadge.style.display = 'inline-flex';
+    }
+    if (pulseDot) pulseDot.style.display = 'block';
+    if (headerPulse) headerPulse.style.display = 'block';
+    if (mobileBadge) {
+      mobileBadge.textContent = unreadCount;
+      mobileBadge.classList.add('has-unread');
+      mobileBadge.style.display = 'inline-flex';
+    }
+  } else if (totalCount > 0) {
+    if (headerBadge) {
+      headerBadge.textContent = totalCount;
+      headerBadge.classList.remove('has-unread');
+      headerBadge.style.display = 'inline-flex';
+    }
+    if (pulseDot) pulseDot.style.display = 'none';
+    if (headerPulse) headerPulse.style.display = 'none';
+    if (mobileBadge) {
+      mobileBadge.textContent = totalCount;
+      mobileBadge.classList.remove('has-unread');
+      mobileBadge.style.display = 'inline-flex';
+    }
+  } else {
+    if (headerBadge) headerBadge.style.display = 'none';
+    if (pulseDot) pulseDot.style.display = 'none';
+    if (headerPulse) headerPulse.style.display = 'none';
+    if (mobileBadge) mobileBadge.style.display = 'none';
+  }
+};
+
+window.openStatusModalWithCode = function (code) {
+  if (typeof openStatusModal === 'function') {
+    openStatusModal();
+    const input = document.getElementById('statusBookingCodeInput');
+    if (input) {
+      input.value = code;
+      const form = document.getElementById('formCheckStatus');
+      if (form) {
+        if (typeof checkBookingStatus === 'function') {
+          checkBookingStatus();
+        } else {
+          form.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      }
+    }
+  }
+};
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.fetchCustomerNotifications();
+  setInterval(() => {
+    window.fetchCustomerNotifications();
+  }, 35000);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeNotificationModal();
+    }
+  });
+});
+
