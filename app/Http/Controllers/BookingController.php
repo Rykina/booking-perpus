@@ -296,7 +296,7 @@ class BookingController extends Controller
 
         // Jika ada pencarian atau ada parameter all, tampilkan hasil
         $hasSearch = !empty($search) || $request->has('all') || $request->has('status');
-        $bookings = $hasSearch ? $query->paginate(12)->withQueryString() : collect();
+        $bookings = $hasSearch ? $query->paginate(12)->appends($request->query()) : collect();
 
         // 6 booking terbaru untuk inspirasi/tampilan awal jika belum mencari
         $recentBookings = Booking::with(['room', 'user'])->latest()->take(6)->get();

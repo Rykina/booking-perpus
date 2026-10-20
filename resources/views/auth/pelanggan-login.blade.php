@@ -88,6 +88,14 @@
                     </label>
                 </div>
 
+                <!-- Google reCAPTCHA v2 -->
+                <div style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    @error('g-recaptcha-response')
+                        <span style="color: #dc2626; font-size: 0.82rem; font-weight: 600; margin-top: 6px; display: block; text-align: center;">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <button type="submit" 
                         class="btn btn-primary btn-block" 
                         style="width: 100%; padding: 13px; border-radius: 9999px; font-weight: 800; font-size: 0.94rem; background: #1a73e8; border-color: #1a73e8; color: #ffffff; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
@@ -172,4 +180,7 @@
         }
     }
 </script>
+@push('scripts')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endpush
 @endsection

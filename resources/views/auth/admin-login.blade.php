@@ -90,11 +90,19 @@
                     </div>
                 </div>
 
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
                     <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #64748b; cursor: pointer;">
                         <input type="checkbox" name="remember" value="1" checked style="width: 16px; height: 16px; accent-color: #1a73e8;">
                         <span>Ingat sesi saya di perangkat ini</span>
                     </label>
+                </div>
+
+                <!-- Google reCAPTCHA v2 -->
+                <div style="margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    @error('g-recaptcha-response')
+                        <span style="color: #dc2626; font-size: 0.82rem; font-weight: 600; margin-top: 6px; display: block; text-align: center;">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button type="submit" 
@@ -144,5 +152,8 @@
         }
     }
 </script>
+@push('scripts')
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endpush
 @endsection
 

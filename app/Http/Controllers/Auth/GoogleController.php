@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Rules\Recaptcha;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,15 +35,24 @@ class GoogleController extends Controller
      */
     public function customerEmailLogin(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+        $recaptchaRules = app()->environment('testing')
+            ? ['nullable', new Recaptcha()]
+            : ['required', new Recaptcha()];
+
+        $request->validate([
+            'email'                => 'required|email',
+            'password'             => 'required|string',
+            'g-recaptcha-response' => $recaptchaRules,
         ], [
-            'email.required' => 'Email wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
+            'email.required'                => 'Email wajib diisi.',
+            'password.required'             => 'Password wajib diisi.',
+            'g-recaptcha-response.required' => 'Silakan centang verifikasi reCAPTCHA terlebih dahulu.',
         ]);
 
-        $credentials['email'] = strtolower(trim($credentials['email']));
+        $credentials = [
+            'email'    => strtolower(trim($request->email)),
+            'password' => $request->password,
+        ];
         $remember = $request->boolean('remember');
 
         if (Auth::attempt($credentials, $remember)) {
@@ -157,15 +167,24 @@ class GoogleController extends Controller
      */
     public function emailLogin(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+        $recaptchaRules = app()->environment('testing')
+            ? ['nullable', new Recaptcha()]
+            : ['required', new Recaptcha()];
+
+        $request->validate([
+            'email'                => 'required|email',
+            'password'             => 'required|string',
+            'g-recaptcha-response' => $recaptchaRules,
         ], [
-            'email.required' => 'Email wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
+            'email.required'                => 'Email wajib diisi.',
+            'password.required'             => 'Password wajib diisi.',
+            'g-recaptcha-response.required' => 'Silakan centang verifikasi reCAPTCHA terlebih dahulu.',
         ]);
 
-        $credentials['email'] = strtolower(trim($credentials['email']));
+        $credentials = [
+            'email'    => strtolower(trim($request->email)),
+            'password' => $request->password,
+        ];
 
         $remember = $request->boolean('remember');
 

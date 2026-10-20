@@ -8,6 +8,37 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $google_id
+ * @property string|null $identity_number
+ * @property string|null $phone_number
+ * @property string|null $avatar
+ * @property string $role
+ * @property string|null $password
+ * @property string|null $remember_token
+ * @property \Carbon\Carbon|null $email_verified_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read string $role_label
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ChatConversation> $chatConversations
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ChatMessage> $chatMessages
+ * @method static \Illuminate\Database\Eloquent\Collection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIn($column, $values, $boolean = 'and', $not = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User orWhere($column, $operator = null, $value = null)
+ * @method static User create(array $attributes = [])
+ * @method static User|null find($id, $columns = ['*'])
+ * @method static User findOrFail($id, $columns = ['*'])
+ * @method static int count($columns = '*')
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Query\Builder
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;

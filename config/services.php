@@ -37,4 +37,16 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI', env('GOOGLE_REDIRECT_URL', 'http://127.0.0.1:8000/auth/google/callback')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google reCAPTCHA v2
+    |--------------------------------------------------------------------------
+    | Default menggunakan Google official test keys (selalu lolos di localhost/dev).
+    | Ganti dengan kunci produksi Anda di .env saat siap live.
+    */
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY', '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'),
+    ],
+
 ];
