@@ -6073,7 +6073,7 @@ select.form-control {
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   flex-shrink: 0;
 }
 
@@ -6104,13 +6104,16 @@ select.form-control {
 #bookingModal .modal-body::-webkit-scrollbar {
   width: 7px;
 }
+
 #bookingModal .modal-body::-webkit-scrollbar-track {
   background: #f8fafc;
 }
+
 #bookingModal .modal-body::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
+
 #bookingModal .modal-body::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -6119,13 +6122,16 @@ select.form-control {
   #bookingModal.modal-backdrop {
     padding: 12px 8px;
   }
+
   #bookingModal .modal-dialog {
     max-height: calc(100vh - 24px);
     border-radius: 16px;
   }
+
   #bookingModal .modal-header {
     padding: 16px 18px;
   }
+
   #bookingModal .modal-body {
     padding: 18px 16px 20px;
   }
@@ -6254,7 +6260,7 @@ select.form-control {
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   flex-shrink: 0;
 }
 
@@ -6640,33 +6646,41 @@ html.dark-mode {
   flex-shrink: 0;
   line-height: 1;
 }
+
 .btn-theme-toggle:hover {
   background: #e2e8f0;
   color: #0f172a;
   border-color: #94a3b8;
   transform: scale(1.06);
 }
+
 .btn-theme-toggle .theme-icon-light {
   display: none;
 }
+
 .btn-theme-toggle .theme-icon-dark {
   display: flex;
 }
+
 [data-theme="dark"] .btn-theme-toggle {
   background: #1e293b !important;
   border-color: #334155 !important;
-  color: #fbbf24 !important; /* Golden sun */
+  color: #fbbf24 !important;
+  /* Golden sun */
   box-shadow: 0 0 12px rgba(251, 191, 36, 0.2);
 }
+
 [data-theme="dark"] .btn-theme-toggle:hover {
   background: #27354f !important;
   color: #fde047 !important;
   border-color: #475569 !important;
   transform: scale(1.06);
 }
+
 [data-theme="dark"] .btn-theme-toggle .theme-icon-light {
   display: flex;
 }
+
 [data-theme="dark"] .btn-theme-toggle .theme-icon-dark {
   display: none;
 }
@@ -6680,9 +6694,11 @@ html.dark-mode {
 [data-theme="dark"] h6 {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] p {
   color: #cbd5e1;
 }
+
 [data-theme="dark"] strong,
 [data-theme="dark"] b {
   color: #ffffff !important;
@@ -6712,21 +6728,24 @@ html.dark-mode {
 [data-theme="dark"] [style*="color:#d97706"],
 [data-theme="dark"] [style*="color: #b45309"],
 [data-theme="dark"] [style*="color:#b45309"] {
-  color: #fbbf24 !important; /* Vivid Golden Amber */
+  color: #fbbf24 !important;
+  /* Vivid Golden Amber */
 }
 
 [data-theme="dark"] [style*="color: #16a34a"],
 [data-theme="dark"] [style*="color:#16a34a"],
 [data-theme="dark"] [style*="color: #15803d"],
 [data-theme="dark"] [style*="color:#15803d"] {
-  color: #34d399 !important; /* Vivid Mint Green */
+  color: #34d399 !important;
+  /* Vivid Mint Green */
 }
 
 [data-theme="dark"] [style*="color: #dc2626"],
 [data-theme="dark"] [style*="color:#dc2626"],
 [data-theme="dark"] [style*="color: #b91c1c"],
 [data-theme="dark"] [style*="color:#b91c1c"] {
-  color: #f87171 !important; /* Vivid Coral Red */
+  color: #f87171 !important;
+  /* Vivid Coral Red */
 }
 
 [data-theme="dark"] [style*="color: #0369a1"],
@@ -6735,14 +6754,16 @@ html.dark-mode {
 [data-theme="dark"] [style*="color:#0284c7"],
 [data-theme="dark"] [style*="color: #1d4ed8"],
 [data-theme="dark"] [style*="color:#1d4ed8"] {
-  color: #93c5fd !important; /* Vivid Sky Blue */
+  color: #93c5fd !important;
+  /* Vivid Sky Blue */
 }
 
 [data-theme="dark"] [style*="color: #7e22ce"],
 [data-theme="dark"] [style*="color:#7e22ce"],
 [data-theme="dark"] [style*="color: #6b21a8"],
 [data-theme="dark"] [style*="color:#6b21a8"] {
-  color: #c084fc !important; /* Vivid Lavender */
+  color: #c084fc !important;
+  /* Vivid Lavender */
 }
 
 /* Status Borders in Dark Mode */
@@ -6750,10 +6771,12 @@ html.dark-mode {
 [data-theme="dark"] [style*="border: 1px solid #fed7aa"] {
   border-color: rgba(245, 158, 11, 0.4) !important;
 }
+
 [data-theme="dark"] [style*="border: 1px solid #dcfce7"],
 [data-theme="dark"] [style*="border: 1px solid #bbf7d0"] {
   border-color: rgba(16, 185, 129, 0.4) !important;
 }
+
 [data-theme="dark"] [style*="border: 1px solid #fee2e2"],
 [data-theme="dark"] [style*="border: 1px solid #fecaca"] {
   border-color: rgba(239, 68, 68, 0.4) !important;
@@ -6789,12 +6812,14 @@ html.dark-mode {
   border-color: rgba(16, 185, 129, 0.4) !important;
   color: #34d399 !important;
 }
+
 [data-theme="dark"] [style*="background: #fef2f2"],
 [data-theme="dark"] [style*="background:#fef2f2"] {
   background: rgba(239, 68, 68, 0.16) !important;
   border-color: rgba(239, 68, 68, 0.4) !important;
   color: #f87171 !important;
 }
+
 [data-theme="dark"] [style*="background: #fffbeb"],
 [data-theme="dark"] [style*="background:#fffbeb"],
 [data-theme="dark"] [style*="background: #fef3c7"],
@@ -6803,6 +6828,7 @@ html.dark-mode {
   border-color: rgba(245, 158, 11, 0.4) !important;
   color: #fbbf24 !important;
 }
+
 [data-theme="dark"] [style*="background: #eff6ff"],
 [data-theme="dark"] [style*="background:#eff6ff"],
 [data-theme="dark"] [style*="background: #e0f2fe"],
@@ -6811,6 +6837,7 @@ html.dark-mode {
   border-color: rgba(59, 130, 246, 0.4) !important;
   color: #93c5fd !important;
 }
+
 [data-theme="dark"] [style*="background: #f3e8ff"],
 [data-theme="dark"] [style*="background:#f3e8ff"] {
   background: rgba(168, 85, 247, 0.16) !important;
@@ -6828,10 +6855,12 @@ html.dark-mode {
   color: #f8fafc !important;
   border: 1px solid #475569 !important;
 }
+
 [data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"])::placeholder,
 [data-theme="dark"] textarea::placeholder {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] input:focus,
 [data-theme="dark"] select:focus,
 [data-theme="dark"] textarea:focus,
@@ -6841,6 +6870,7 @@ html.dark-mode {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
   background-color: #1e293b !important;
 }
+
 [data-theme="dark"] .form-label,
 [data-theme="dark"] label {
   color: #e2e8f0 !important;
@@ -6852,15 +6882,18 @@ html.dark-mode {
   color: #60a5fa !important;
   background: transparent !important;
 }
+
 [data-theme="dark"] .btn-outline:hover {
   background: rgba(59, 130, 246, 0.2) !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .btn-secondary {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .btn-secondary:hover {
   background: #27354f !important;
   color: #ffffff !important;
@@ -6872,18 +6905,21 @@ html.dark-mode {
   color: #f8fafc !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] thead th,
 [data-theme="dark"] th {
   background-color: #111827 !important;
   color: #f8fafc !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] tbody tr td,
 [data-theme="dark"] td {
   background-color: #161f30 !important;
   color: #cbd5e1 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] tbody tr:hover td {
   background-color: #1e293b !important;
   color: #ffffff !important;
@@ -6894,58 +6930,71 @@ html.dark-mode {
   background: rgba(11, 15, 25, 0.96) !important;
   border-bottom: 1px solid #2d3b52 !important;
 }
+
 [data-theme="dark"] .brand-title {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .brand-subtitle {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .nav-links {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .nav-link {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .nav-link:hover {
   color: #ffffff !important;
   background: #243048 !important;
 }
+
 [data-theme="dark"] .nav-link.active {
   background: #2563eb !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .btn-history-pill,
 [data-theme="dark"] .btn-search-pill {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .btn-history-pill:hover,
 [data-theme="dark"] .btn-search-pill:hover {
   background: #243048 !important;
   border-color: #3b82f6 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .btn-history-pill.active {
   background: #2563eb !important;
   color: #ffffff !important;
   border-color: #2563eb !important;
 }
+
 [data-theme="dark"] .btn-login-google-pill {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .btn-login-google-pill:hover {
   background: #243048 !important;
   border-color: #3b82f6 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .user-menu-pill {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .user-name-label {
   color: #f8fafc !important;
 }
@@ -6956,77 +7005,98 @@ html.dark-mode {
   border-color: #2d3b52 !important;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
 }
+
 [data-theme="dark"] .value-title {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .value-desc {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .value-icon-box {
   background: rgba(59, 130, 246, 0.15) !important;
 }
+
 [data-theme="dark"] .facility-card {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .facility-card:hover {
   border-color: #3b82f6 !important;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45) !important;
 }
+
 [data-theme="dark"] .facility-title {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .facility-desc {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .facility-meta-item {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .facility-feature-tag {
   background: #1e293b !important;
   color: #cbd5e1 !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .filter-btn {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .filter-btn:hover {
   background: #243048 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .filter-btn.active {
   background: #2563eb !important;
   color: #ffffff !important;
   border-color: #2563eb !important;
 }
+
 [data-theme="dark"] .faq-item {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .faq-question {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .faq-answer {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .footer {
   background: #080c14 !important;
   border-top-color: #1e293b !important;
 }
+
 [data-theme="dark"] .footer-title {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .footer-link {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .footer-link:hover {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .history-page-wrapper {
   background: #0b0f19 !important;
 }
+
 [data-theme="dark"] .history-hero-card {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
   border-color: #2d3b52 !important;
@@ -7038,54 +7108,67 @@ html.dark-mode {
   border-color: #2d3b52 !important;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
 }
+
 [data-theme="dark"] #customerChatMessages {
   background: #0b0f19 !important;
 }
+
 [data-theme="dark"] .chat-msg-admin .chat-bubble {
   background: #1e293b !important;
   color: #f8fafc !important;
   border: 1px solid #334155 !important;
 }
+
 [data-theme="dark"] .chat-msg-user .chat-bubble {
   background: #2563eb !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] #customerChatBox textarea {
   background: #1e293b !important;
   color: #f8fafc !important;
   border-color: #475569 !important;
 }
+
 [data-theme="dark"] .chat-admin-container,
 [data-theme="dark"] .chat-sidebar {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .chat-user-item {
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .chat-user-item:hover,
 [data-theme="dark"] .chat-user-item.active {
   background: #1e293b !important;
 }
+
 [data-theme="dark"] .chat-user-name {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .chat-user-preview {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .chat-main-area,
 [data-theme="dark"] .chat-messages-container {
   background: #0b0f19 !important;
 }
+
 [data-theme="dark"] .chat-bubble-received {
   background: #1e293b !important;
   color: #f8fafc !important;
   border: 1px solid #334155 !important;
 }
+
 [data-theme="dark"] .chat-bubble-sent {
   background: #2563eb !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .chat-modal-dialog {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
@@ -7096,57 +7179,72 @@ html.dark-mode {
 [data-theme="dark"] .modal-backdrop {
   background: rgba(0, 0, 0, 0.75) !important;
 }
+
 [data-theme="dark"] .modal-dialog {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   color: #f8fafc !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) !important;
 }
+
 [data-theme="dark"] .modal-header {
   background: #161f30 !important;
   border-bottom-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .modal-title-group h3 {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .modal-title-group p {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .modal-close {
   background: #1e293b !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .modal-close:hover {
   background: #2d3b52 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .modal-body {
   background: #161f30 !important;
 }
+
 [data-theme="dark"] .modal-room-card {
   background: #1e293b !important;
   border-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .modal-room-card.selected {
   background: rgba(59, 130, 246, 0.15) !important;
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .modal-room-name {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .modal-room-capacity {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .modal-dropzone-box {
   background: #1e293b !important;
   border-color: #475569 !important;
 }
+
 [data-theme="dark"] .modal-dropzone-title {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .modal-dropzone-hint {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .modal-footer {
   background: #161f30 !important;
   border-top-color: #2d3b52 !important;
@@ -7164,127 +7262,156 @@ html.dark-mode {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .facility-preview-name {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .facility-meta-chip {
   background: #243048 !important;
   color: #cbd5e1 !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .section-header-title {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .section-header-icon {
   background: rgba(59, 130, 246, 0.18) !important;
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .booking-type-card {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .booking-type-card.selected {
   background: rgba(59, 130, 246, 0.15) !important;
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .type-card-title-text {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .type-card-desc,
 [data-theme="dark"] #fullDayDescText {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .modal-slot-guide-box {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .slot-guide-badge {
   background: #243048 !important;
   color: #cbd5e1 !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .time-slot-btn {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .time-slot-btn:hover {
   background: #243048 !important;
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .time-slot-btn.selected {
   background: #2563eb !important;
   color: #ffffff !important;
   border-color: #2563eb !important;
 }
+
 [data-theme="dark"] .time-slot-btn.disabled,
 [data-theme="dark"] .time-slot-btn.booked {
   background: #131c2c !important;
   color: #64748b !important;
   border-color: #1e293b !important;
 }
+
 [data-theme="dark"] .ticket-card {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   color: #f8fafc !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
+
 [data-theme="dark"] .ticket-header {
   border-bottom-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .ticket-header div[style*="color: #0f172a"] {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .ticket-code-wrap {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .ticket-code {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .ticket-details-grid,
 html.dark-mode .ticket-details-grid {
   background: transparent !important;
 }
+
 [data-theme="dark"] .ticket-item,
 html.dark-mode .ticket-item {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .ticket-item span:first-child,
 [data-theme="dark"] .ticket-item .ticket-label,
 [data-theme="dark"] .ticket-label,
 html.dark-mode .ticket-item span:first-child,
 html.dark-mode .ticket-item .ticket-label,
 html.dark-mode .ticket-label {
-  color: #93c5fd !important; /* Soft luminous sky-blue for clear, high-contrast readability */
+  color: #93c5fd !important;
+  /* Soft luminous sky-blue for clear, high-contrast readability */
   font-weight: 700 !important;
   letter-spacing: 0.05em !important;
 }
+
 [data-theme="dark"] .ticket-item span:last-child,
 [data-theme="dark"] .ticket-item .ticket-value,
 [data-theme="dark"] .ticket-value,
 html.dark-mode .ticket-item span:last-child,
 html.dark-mode .ticket-item .ticket-value,
 html.dark-mode .ticket-value {
-  color: #ffffff !important; /* Crisp pure white */
+  color: #ffffff !important;
+  /* Crisp pure white */
   font-weight: 800 !important;
 }
+
 [data-theme="dark"] .ticket-body,
 html.dark-mode .ticket-body {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .ticket-purpose-section,
 [data-theme="dark"] .ticket-card div[style*="border-top"],
 html.dark-mode .ticket-purpose-section,
 html.dark-mode .ticket-card div[style*="border-top"] {
   border-top-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .ticket-purpose-text,
 [data-theme="dark"] .ticket-card p,
 html.dark-mode .ticket-purpose-text,
 html.dark-mode .ticket-card p {
   color: #e2e8f0 !important;
 }
+
 [data-theme="dark"] .ticket-admin-notes,
 [data-theme="dark"] .ticket-card div[style*="background: #eff6ff"],
 [data-theme="dark"] .ticket-card div[style*="background:#eff6ff"],
@@ -7293,6 +7420,7 @@ html.dark-mode .ticket-card div[style*="background: #eff6ff"] {
   background: rgba(30, 58, 138, 0.28) !important;
   border-left-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .ticket-admin-notes-lbl,
 [data-theme="dark"] .ticket-card span[style*="color: #1e40af"],
 html.dark-mode .ticket-admin-notes-lbl,
@@ -7300,27 +7428,32 @@ html.dark-mode .ticket-card span[style*="color: #1e40af"] {
   color: #93c5fd !important;
   font-weight: 700 !important;
 }
+
 [data-theme="dark"] .ticket-admin-notes-text,
 [data-theme="dark"] .ticket-card p[style*="color: #1e3a8a"],
 html.dark-mode .ticket-admin-notes-text,
 html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   color: #f1f5f9 !important;
 }
+
 [data-theme="dark"] .status-pill.status-disetujui {
   background: rgba(16, 185, 129, 0.22) !important;
   color: #34d399 !important;
   border: 1px solid rgba(16, 185, 129, 0.5) !important;
 }
+
 [data-theme="dark"] .status-pill.status-menunggu {
   background: rgba(245, 158, 11, 0.22) !important;
   color: #fbbf24 !important;
   border: 1px solid rgba(245, 158, 11, 0.5) !important;
 }
+
 [data-theme="dark"] .status-pill.status-ditolak {
   background: rgba(239, 68, 68, 0.22) !important;
   color: #f87171 !important;
   border: 1px solid rgba(239, 68, 68, 0.5) !important;
 }
+
 [data-theme="dark"] .status-pill.status-selesai {
   background: rgba(59, 130, 246, 0.22) !important;
   color: #93c5fd !important;
@@ -7334,34 +7467,42 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   background: linear-gradient(160deg, #070d18 0%, #0c1524 40%, #111d33 75%, #0b1120 100%) !important;
   border-bottom: 1px solid #1e293b !important;
 }
+
 [data-theme="dark"] .hero-title {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .hero-title-highlight {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .hero-description {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .hero-badge {
   background: rgba(30, 58, 138, 0.4) !important;
   border-color: rgba(96, 165, 250, 0.4) !important;
   color: #93c5fd !important;
 }
+
 [data-theme="dark"] .hero-badge svg {
   color: #93c5fd !important;
 }
+
 [data-theme="dark"] .hero-btn-sub {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #f8fafc !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
+
 [data-theme="dark"] .hero-btn-sub:hover {
   background: #27354f !important;
   border-color: #60a5fa !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .hero-visual {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
 }
@@ -7373,67 +7514,85 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
 [data-theme="dark"] #fasilitas {
   background: transparent !important;
 }
+
 [data-theme="dark"] .facilities-heading {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .section-tag-uppercase {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .vertical-accent-line {
   background: #3b82f6 !important;
 }
+
 [data-theme="dark"] .link-see-all-facilities {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .link-see-all-facilities:hover {
   color: #93c5fd !important;
 }
+
 [data-theme="dark"] .room-card-box {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
 }
+
 [data-theme="dark"] .room-card-box:hover {
   border-color: #3b82f6 !important;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55) !important;
 }
+
 [data-theme="dark"] .room-card-content {
   background: #161f30 !important;
 }
+
 [data-theme="dark"] .room-card-name {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .room-card-description {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .room-spec-chip {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .spec-chip-label {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .spec-chip-value {
   color: #f8fafc !important;
 }
+
 [data-theme="dark"] .spec-chip-icon {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .room-card-next-arrow {
   background: #1e293b !important;
   color: #ffffff !important;
   border: 1px solid #334155 !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
 }
+
 [data-theme="dark"] .room-card-next-arrow:hover {
   background: #27354f !important;
   color: #ffffff !important;
   border-color: #60a5fa !important;
 }
+
 [data-theme="dark"] .icon-blue-tint {
   background: rgba(59, 130, 246, 0.2) !important;
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .icon-purple-tint {
   background: rgba(147, 51, 234, 0.2) !important;
   color: #c084fc !important;
@@ -7447,49 +7606,61 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   border-color: #2d3b52 !important;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
 }
+
 [data-theme="dark"] .schedule-summary-card:hover {
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .rules-summary-card {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
 }
+
 [data-theme="dark"] .rules-summary-card:hover {
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .card-main-title,
 [data-theme="dark"] .rules-main-title {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .card-subtitle-desc,
 [data-theme="dark"] .rules-dept-sub {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .big-cal-icon-wrap {
   background: rgba(59, 130, 246, 0.2) !important;
 }
+
 [data-theme="dark"] .time-chip {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .rule-mini-tile {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .rule-mini-tile:hover {
   border-color: #60a5fa !important;
   background: #243048 !important;
 }
+
 [data-theme="dark"] .tile-label {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .rules-modal-detail-box {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .rules-modal-detail-box h4 {
   color: #ffffff !important;
 }
@@ -7502,119 +7673,147 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   border-color: #2d3b52 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
+
 [data-theme="dark"] .schedule-nav-tabs {
   background: #0f172a !important;
   border-bottom: 1px solid #2d3b52 !important;
 }
+
 [data-theme="dark"] .schedule-room-tab {
   background: transparent !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .schedule-room-tab:hover {
   color: #ffffff !important;
   background: #1e293b !important;
 }
+
 [data-theme="dark"] .schedule-room-tab.active {
   background: #2563eb !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .schedule-control-bar {
   background: #161f30 !important;
   border-bottom: 1px solid #2d3b52 !important;
 }
+
 [data-theme="dark"] .schedule-calendar-label {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .schedule-calendar-sub {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .calendar-icon-circle {
   background: rgba(59, 130, 246, 0.2) !important;
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .schedule-input-wrapper {
   background: #1e293b !important;
   border-color: #475569 !important;
 }
+
 [data-theme="dark"] .schedule-input-wrapper input {
   background: transparent !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .btn-day-nav {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .btn-day-nav:hover {
   background: #243048 !important;
   color: #ffffff !important;
   border-color: #60a5fa !important;
 }
+
 [data-theme="dark"] .btn-today {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .btn-today:hover {
   background: #243048 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .week-strip-container {
   background: #161f30 !important;
   border-bottom: 1px solid #2d3b52 !important;
 }
+
 [data-theme="dark"] .day-chip-card {
   background: #1e293b !important;
   border: 1.5px solid #334155 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
+
 [data-theme="dark"] .day-chip-card:hover {
   background: #253349 !important;
   border-color: #60a5fa !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
 }
+
 [data-theme="dark"] .day-chip-card.active {
   background: #1e293b !important;
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4), 0 6px 18px rgba(0, 0, 0, 0.5) !important;
 }
+
 [data-theme="dark"] .day-chip-today-pill {
   background: #2563eb !important;
   color: #ffffff !important;
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.5) !important;
 }
+
 [data-theme="dark"] .day-chip-name {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .day-chip-card.active .day-chip-name {
   color: #60a5fa !important;
   font-weight: 800 !important;
 }
+
 [data-theme="dark"] .day-chip-date {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .day-chip-card.active .day-chip-date {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .day-chip-month {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .day-chip-badge.badge-kosong {
   background: rgba(16, 185, 129, 0.16) !important;
   color: #34d399 !important;
   border: 1px solid rgba(16, 185, 129, 0.35) !important;
 }
+
 [data-theme="dark"] .day-chip-badge.badge-sebagian {
   background: rgba(245, 158, 11, 0.16) !important;
   color: #fbbf24 !important;
   border: 1px solid rgba(245, 158, 11, 0.35) !important;
 }
+
 [data-theme="dark"] .day-chip-badge.badge-penuh {
   background: rgba(239, 68, 68, 0.16) !important;
   color: #f87171 !important;
   border: 1px solid rgba(239, 68, 68, 0.35) !important;
 }
+
 [data-theme="dark"] .day-chip-badge.badge-libur {
   background: #243044 !important;
   color: #94a3b8 !important;
@@ -7626,9 +7825,11 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   background: #111827 !important;
   border-top-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .detail-panel-header {
   border-bottom-color: #2d3b52 !important;
 }
+
 [data-theme="dark"] .detail-room-chip,
 [data-theme="dark"] .detail-date-display,
 [data-theme="dark"] .detail-hours-badge {
@@ -7636,35 +7837,42 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .detail-date-display {
   color: #93c5fd !important;
   border-color: rgba(59, 130, 246, 0.4) !important;
 }
+
 [data-theme="dark"] .detail-hours-badge.is-closed {
   background: rgba(239, 68, 68, 0.16) !important;
   border-color: rgba(239, 68, 68, 0.35) !important;
   color: #f87171 !important;
 }
+
 [data-theme="dark"] .sum-pill-kosong {
   background: rgba(16, 185, 129, 0.16) !important;
   color: #34d399 !important;
   border: 1px solid rgba(16, 185, 129, 0.35) !important;
 }
+
 [data-theme="dark"] .sum-pill-terisi {
   background: rgba(239, 68, 68, 0.16) !important;
   color: #f87171 !important;
   border: 1px solid rgba(239, 68, 68, 0.35) !important;
 }
+
 [data-theme="dark"] .sum-pill-menunggu {
   background: rgba(245, 158, 11, 0.16) !important;
   color: #fbbf24 !important;
   border: 1px solid rgba(245, 158, 11, 0.35) !important;
 }
+
 [data-theme="dark"] .btn-fullday-badge {
   background: #1e293b !important;
   border: 1px solid #d97706 !important;
   color: #fbbf24 !important;
 }
+
 [data-theme="dark"] .btn-fullday-badge:hover {
   background: #29374d !important;
   border-color: #f59e0b !important;
@@ -7677,77 +7885,96 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   border: 1px solid #334155 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
+
 [data-theme="dark"] .slot-card-minimal.status-tersedia:hover {
   background: #253349 !important;
   border-color: #3b82f6 !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
 }
+
 [data-theme="dark"] .slot-card-minimal.status-terisi {
   background: #191f2d !important;
   border-color: rgba(239, 68, 68, 0.28) !important;
 }
+
 [data-theme="dark"] .slot-card-minimal.status-menunggu {
   background: #1e212f !important;
   border-color: rgba(245, 158, 11, 0.28) !important;
 }
+
 [data-theme="dark"] .slot-card-minimal.status-tutup {
   background: #161c27 !important;
   border-color: #263345 !important;
   opacity: 0.6 !important;
 }
+
 [data-theme="dark"] .slot-min-time {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .slot-min-time svg {
   color: #60a5fa !important;
 }
+
 [data-theme="dark"] .slot-min-time.time-busy svg {
   color: #f87171 !important;
 }
+
 [data-theme="dark"] .slot-min-time.time-wait svg {
   color: #fbbf24 !important;
 }
+
 [data-theme="dark"] .slot-min-time.time-closed svg {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .slot-min-sub {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .slot-min-sub.sub-busy {
   color: #f87171 !important;
 }
+
 [data-theme="dark"] .slot-min-sub.sub-wait {
   color: #fbbf24 !important;
 }
+
 [data-theme="dark"] .slot-min-pill.pill-tersedia {
   background: rgba(16, 185, 129, 0.16) !important;
   color: #34d399 !important;
   border: 1px solid rgba(16, 185, 129, 0.35) !important;
 }
+
 [data-theme="dark"] .slot-min-pill.pill-terisi {
   background: rgba(239, 68, 68, 0.16) !important;
   color: #f87171 !important;
   border: 1px solid rgba(239, 68, 68, 0.35) !important;
 }
+
 [data-theme="dark"] .slot-min-pill.pill-menunggu {
   background: rgba(245, 158, 11, 0.16) !important;
   color: #fbbf24 !important;
   border: 1px solid rgba(245, 158, 11, 0.35) !important;
 }
+
 [data-theme="dark"] .slot-min-pill.pill-tutup {
   background: #243044 !important;
   color: #94a3b8 !important;
   border: 1px solid #334155 !important;
 }
+
 [data-theme="dark"] .slot-code-mini {
   background: #243044 !important;
   color: #cbd5e1 !important;
   border: 1px solid #334155 !important;
 }
+
 [data-theme="dark"] .btn-slot-select {
   background: #2563eb !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .btn-slot-select:hover {
   background: #3b82f6 !important;
 }
@@ -7757,20 +7984,25 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   background: #1e293b !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .slot-card .slot-hour,
 [data-theme="dark"] .slot-time-badge {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .slot-card-desc {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .slot-agenda-box {
   background: #242938 !important;
   border-color: #3b2832 !important;
 }
+
 [data-theme="dark"] .slot-agenda-label {
   color: #f87171 !important;
 }
+
 [data-theme="dark"] .slot-agenda-title {
   color: #f8fafc !important;
 }
@@ -7780,37 +8012,45 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   background: transparent !important;
   border-top: 1px solid #2d3b52 !important;
 }
+
 [data-theme="dark"] .legend-item {
   background: #1e293b !important;
   border: 1px solid #334155 !important;
   color: #cbd5e1 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
 }
+
 [data-theme="dark"] .legend-item strong {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .legend-item span {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .btn-fullday-secondary {
   background: #1e293b !important;
   border-color: #d97706 !important;
   color: #fbbf24 !important;
 }
+
 [data-theme="dark"] .btn-fullday-secondary:hover {
   background: #29374d !important;
   border-color: #f59e0b !important;
   color: #fde047 !important;
 }
+
 [data-theme="dark"] .slot-loading-state,
 [data-theme="dark"] .slot-empty-state {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .slot-loading-text {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .slot-spinner {
   border-color: #334155 !important;
   border-top-color: #3b82f6 !important;
@@ -7822,25 +8062,31 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
 [data-theme="dark"] .steps-section {
   background: #0b0f19 !important;
 }
+
 [data-theme="dark"] .step-card {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
 }
+
 [data-theme="dark"] .step-card:hover {
   border-color: #3b82f6 !important;
 }
+
 [data-theme="dark"] .step-title {
   color: #ffffff !important;
 }
+
 [data-theme="dark"] .step-text {
   color: #cbd5e1 !important;
 }
+
 [data-theme="dark"] .step-pill {
   background: #1e293b !important;
   color: #60a5fa !important;
   border-color: #334155 !important;
 }
+
 [data-theme="dark"] .booking-code-chip {
   background: #1e293b !important;
   color: #60a5fa !important;
@@ -7880,6 +8126,7 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
 .btn-theme-floating .theme-icon-light {
   display: none;
 }
+
 .btn-theme-floating .theme-icon-dark {
   display: flex;
   color: #0f172a;
@@ -7887,7 +8134,8 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
 
 [data-theme="dark"] .btn-theme-floating {
   background: #1e293b !important;
-  color: #fbbf24 !important; /* Golden sun */
+  color: #fbbf24 !important;
+  /* Golden sun */
   border-color: #334155 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 18px rgba(251, 191, 36, 0.25) !important;
 }
@@ -7903,6 +8151,7 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
 [data-theme="dark"] .btn-theme-floating .theme-icon-light {
   display: flex;
 }
+
 [data-theme="dark"] .btn-theme-floating .theme-icon-dark {
   display: none;
 }
@@ -7924,20 +8173,25 @@ html.dark-mode .ticket-card p[style*="color: #1e3a8a"] {
   border-color: #2d3b52 !important;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
 }
+
 [data-theme="dark"] #customerChatStream {
   background: #0f172a !important;
 }
+
 [data-theme="dark"] #customerChatInput {
   background: #1e293b !important;
   border-color: #334155 !important;
   color: #ffffff !important;
 }
+
 [data-theme="dark"] #customerChatInput::placeholder {
   color: #94a3b8 !important;
 }
+
 [data-theme="dark"] .auth-page-container {
   background: #070d18 !important;
 }
+
 [data-theme="dark"] .auth-card {
   background: #161f30 !important;
   border-color: #2d3b52 !important;
@@ -8644,24 +8898,37 @@ html.dark-mode table tbody td div[style*="color: #334155"] {
    GLOBAL MEDIA PRINT STYLES (PREVENTS SCREENSHOT-LIKE PRINTS)
    ========================================================================== */
 @media print {
-  html, body {
+
+  html,
+  body {
     background: #ffffff !important;
     color: #000000 !important;
     font-size: 11pt !important;
   }
 
   /* Sembunyikan elemen navigasi dan tombol web */
-  nav, .navbar, header, footer,
-  .btn-theme-floating, #floatingThemeToggleBtn, #adminFloatingThemeToggleBtn,
-  #customerChatLauncher, #customerChatBox,
-  .modal-backdrop, .modal,
+  nav,
+  .navbar,
+  header,
+  footer,
+  .btn-theme-floating,
+  #floatingThemeToggleBtn,
+  #adminFloatingThemeToggleBtn,
+  #customerChatLauncher,
+  #customerChatBox,
+  .modal-backdrop,
+  .modal,
   .no-print,
-  button, .btn {
+  button,
+  .btn {
     display: none !important;
   }
 
   /* Hilangkan bayangan kartu dan border web */
-  .ticket-card, .history-card, .card, div {
+  .ticket-card,
+  .history-card,
+  .card,
+  div {
     box-shadow: none !important;
     text-shadow: none !important;
   }

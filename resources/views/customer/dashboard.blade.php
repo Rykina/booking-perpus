@@ -110,7 +110,7 @@
                     <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #64748b;">Pantau status persetujuan, jadwal acara, dan catatan petugas perpustakaan.</p>
                 </div>
                 <a href="{{ route('booking.index') }}" class="btn btn-outline btn-sm" style="border-radius: 9999px; text-decoration: none;">
-                    Lihat Katalog Fasilitas
+                    Lihat Ruangan
                 </a>
             </div>
 

@@ -944,10 +944,10 @@ const ROOM_PHOTOS = {
     { src: '/images/rooms/rapat/ruangrapat1.jpg', caption: 'Ruang Rapat – Meja Utama' },
     { src: '/images/rooms/rapat/ruangrapat2.jpg', caption: 'Ruang Rapat – Area Presentasi' },
   ],
-  // Videotron / Layar Iklan (id=4)
+  // Lobi Luar (id=4)
   4: [
-    { src: '/images/rooms/videotron/videotron1.jpeg', caption: 'Videotron Lobi – Tampak Depan' },
-    { src: '/images/rooms/videotron/videotron2.jpeg', caption: 'Videotron Lobi – Detail Layar' },
+    { src: '/images/gedung-perpus-bogor-real.jpg', caption: 'Lobi Luar – Area Plaza & Selasar Depan' },
+    { src: '/images/rooms/videotron/videotron1.jpeg', caption: 'Lobi Luar – Selasar & Pintu Masuk' },
   ],
 };
 
@@ -1131,6 +1131,19 @@ window.openRulesDetailModal = function(ruleType) {
           <li><strong>Hari Jumat & Libur Nasional:</strong> Layanan peminjaman fasilitas tutup/libur untuk kegiatan sterilisasi dan pemeliharaan rutin sarana dan prasarana.</li>
         </ul>
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Catatan: Panitia / peminjam disarankan hadir 30 menit sebelum jadwal untuk persiapan teknis mik, proyektor, dan tata ruangan.</p>
+      `
+    },
+    lobi: {
+      title: 'Peminjaman Lobi Luar',
+      html: `
+        <h4>🏛️ Ketentuan Peminjaman Area Lobi Luar</h4>
+        <p>Area lobi luar dan selasar depan Perpustakaan & Galeri Kota Bogor dapat dipinjam untuk kegiatan positif masyarakat:</p>
+        <ul>
+          <li><strong>Jenis Kegiatan:</strong> Pameran terbuka, stan bazaar literasi, pendaftaran/registrasi acara, dan aktivitas komunitas.</li>
+          <li><strong>Kapasitas:</strong> Maksimal hingga 50 orang peserta/pengunjung aktif.</li>
+          <li><strong>Fasilitas Tersedia:</strong> Stop kontak luar ruangan, kanopi peneduh, area loading barang, dan dekat akses parkir utama.</li>
+          <li><strong>Ketertiban & Kebersihan:</strong> Peminjam wajib menjaga kebersihan selasar, tidak menghalangi jalur evakuasi, dan menata kembali area setelah acara selesai.</li>
+        </ul>
       `
     },
     videotron: {

@@ -95,14 +95,14 @@ class DatabaseSeeder extends Seeder
             'status' => 'tersedia',
         ]);
 
-        $layarIklan = \App\Models\Room::create([
-            'name' => 'Layar Iklan Digital (Videotron & Digital Signage)',
-            'code' => 'LYR-01',
-            'category' => 'layar_iklan',
-            'floor' => 'Lantai 1 - Lobi Utama Galeri',
-            'capacity' => 1,
-            'facilities' => 'LED Videotron Indoor P2.5 High Definition 4x2 Meter, Media Player Cloud Otomatis, Format Support MP4/JPG/PNG, Durasi Loop Slot 15-30 Detik, Resolusi 1920x1080',
-            'description' => 'Layar iklan digital / videotron di area lobi utama Perpustakaan Dan Galeri Kota Bogor. Digunakan untuk publikasi poster kegiatan literasi, agenda seni budaya kota, lomba, dan pengumuman layanan masyarakat.',
+        $lobiLuar = \App\Models\Room::create([
+            'name' => 'Lobi Luar',
+            'code' => 'LOB-01',
+            'category' => 'ruangan',
+            'floor' => 'Lantai 1',
+            'capacity' => 50,
+            'facilities' => 'Area Terbuka / Selasar Luar, Tenda / Kanopi Peneduh, Stop Kontak Outdoor, Meja Registrasi, Dekat Akses Utama & Taman',
+            'description' => 'Area lobi luar Perpustakaan Dan Galeri Kota Bogor untuk kegiatan pameran terbuka, bazaar literasi, pendaftaran atau registrasi acara, dan aktivitas komunitas.',
             'image' => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
             'status' => 'tersedia',
         ]);
