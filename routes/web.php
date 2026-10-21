@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,18 @@ Route::post('/admin/login', [GoogleController::class, 'emailLogin'])->name('admi
 Route::post('/login/email', [GoogleController::class, 'emailLogin'])->name('login.email');
 Route::match(['get', 'post'], '/admin/logout', [GoogleController::class, 'adminLogout'])->name('admin.logout');
 
+// 2.1 Rute Lupa / Reset Kata Sandi & Verifikasi OTP Gmail (Password Reset with OTP 2FA)
+Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])->name('password.request');
+Route::post('/lupa-password', [PasswordResetController::class, 'sendOtp'])->name('password.email');
+Route::get('/verifikasi-otp', [PasswordResetController::class, 'showOtpForm'])->name('password.otp');
+Route::post('/verifikasi-otp', [PasswordResetController::class, 'verifyOtp'])->name('password.otp.verify');
+Route::post('/kirim-ulang-otp', [PasswordResetController::class, 'resendOtp'])->name('password.otp.resend');
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
+Route::get('/forgot-password', function () {
+    return redirect()->route('password.request');
+});
+
 // 3. Endpoint Google OAuth Flow
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/redirect', [GoogleController::class, 'redirectToGoogle'])->name('auth.redirect');
@@ -81,6 +94,7 @@ Route::match(['get', 'post'], '/pelanggan/logout', [GoogleController::class, 'lo
 */
 Route::middleware('auth')->group(function () {
     Route::get('/pelanggan', [\App\Http\Controllers\CustomerController::class, 'dashboard'])->name('pelanggan.dashboard');
+    Route::match(['post', 'put'], '/pelanggan/profil', [\App\Http\Controllers\CustomerController::class, 'updateProfile'])->name('pelanggan.profile.update');
     Route::get('/chat/conversation', [ChatController::class, 'getCustomerConversation'])->name('chat.conversation');
     Route::post('/chat/send', [ChatController::class, 'customerSendMessage'])->name('chat.send');
 });

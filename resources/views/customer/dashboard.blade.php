@@ -28,25 +28,59 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 14px 20px; border-radius: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 0.9rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 14px 20px; border-radius: 14px; margin-bottom: 24px;">
+                <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>Terdapat kendala saat menyimpan profil:</span>
+                </div>
+                <ul style="margin: 0; padding-left: 26px; font-size: 0.85rem;">
+                    @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Profile & Welcome Banner -->
         <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; padding: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
             <div style="display: flex; align-items: center; gap: 18px;">
-                @if($user->avatar)
-                    <img src="{{ $user->avatar }}" alt="{{ $user->name }}" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" referrerpolicy="no-referrer">
-                @else
-                    <div style="width: 64px; height: 64px; border-radius: 50%; background: #1a73e8; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; border: 3px solid #e2e8f0;">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                <div style="position: relative; cursor: pointer; flex-shrink: 0;" onclick="openEditProfileModal()" title="Klik untuk mengedit foto profil">
+                    @if($user->avatar)
+                        <img src="{{ $user->avatar }}" alt="{{ $user->name }}" style="width: 68px; height: 68px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06);" referrerpolicy="no-referrer">
+                    @else
+                        <div style="width: 68px; height: 68px; border-radius: 50%; background: #1a73e8; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; border: 3px solid #e2e8f0;">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
+                    @endif
+                    <div style="position: absolute; bottom: 0; right: 0; background: #2563eb; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.25);" title="Ubah Foto">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                     </div>
-                @endif
+                </div>
                 <div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                         <h1 style="margin: 0; font-size: 1.45rem; font-weight: 800; color: #0f172a;">Selamat Datang, {{ $user->name }}!</h1>
                         <span style="background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 9999px; text-transform: uppercase;">Pelanggan Terverifikasi</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 14px; font-size: 0.85rem; color: #64748b; margin-top: 4px;">
+                    <div style="display: flex; align-items: center; gap: 14px; font-size: 0.85rem; color: #64748b; margin-top: 5px; flex-wrap: wrap;">
                         <span>📧 {{ $user->email }}</span>
+                        @if($user->phone_number)
+                            <span>•</span>
+                            <span>📱 {{ $user->phone_number }}</span>
+                        @endif
+                        @if($user->identity_number)
+                            <span>•</span>
+                            <span>🪪 ID: {{ $user->identity_number }}</span>
+                        @endif
                         <span>•</span>
-                        <span>🗓️ Terdaftar via Akun Google</span>
+                        <span>🗓️ {{ $user->google_id ? 'Terdaftar via Akun Google' : 'Akun Terdaftar' }}</span>
                     </div>
                 </div>
             </div>
@@ -55,11 +89,15 @@
             <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
                 <button type="button" onclick="openBookingModal()" class="btn btn-primary" style="border-radius: 9999px; padding: 10px 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Ajukan Reservasi Baru
+                    <span>Ajukan Reservasi Baru</span>
+                </button>
+                <button type="button" onclick="openEditProfileModal()" class="btn btn-outline" style="border-radius: 9999px; padding: 10px 18px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <span>Edit Profil</span>
                 </button>
                 <button type="button" onclick="if(window.toggleCustomerChat) window.toggleCustomerChat(); else document.getElementById('chatLauncherBtn')?.click();" class="btn btn-outline" style="border-radius: 9999px; padding: 10px 18px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    Chat Staf Perpustakaan
+                    <span>Chat Staf Perpustakaan</span>
                 </button>
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
                     @csrf
@@ -223,5 +261,241 @@
 
     </div>
 </div>
+
+<!-- ========================================================================= -->
+<!-- JENDELA MODAL EDIT PROFIL PELANGGAN -->
+<!-- ========================================================================= -->
+<div class="modal-backdrop edit-profile-modal-backdrop" id="editProfileModal" aria-hidden="true" onclick="handleEditProfileBackdrop(event)">
+    <div class="modal-dialog edit-profile-modal-dialog" onclick="event.stopPropagation()">
+        <!-- Header Modal -->
+        <div class="edit-profile-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #0f172a;">Edit Profil Saya</h3>
+                    <p style="margin: 2px 0 0 0; font-size: 0.78rem; color: #64748b;">Perbarui data diri, nomor kontak, foto profil, atau kata sandi Anda.</p>
+                </div>
+            </div>
+            <button type="button" class="modal-close" onclick="closeEditProfileModal()" aria-label="Tutup Jendela" style="background: none; border: none; cursor: pointer; color: #94a3b8; padding: 4px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Form Edit Profil -->
+        <form action="{{ route('pelanggan.profile.update') }}" method="POST" enctype="multipart/form-data" id="formEditProfile" style="display: flex; flex-direction: column; height: 100%; margin: 0;">
+            @csrf
+            @method('PUT')
+
+            <div class="edit-profile-body">
+                <!-- Foto Profil / Avatar Box -->
+                <div class="profile-avatar-edit-box">
+                    <div id="avatarPreviewContainer" style="flex-shrink: 0;">
+                        @if($user->avatar)
+                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" id="avatarPreviewImg" class="profile-avatar-preview-img" referrerpolicy="no-referrer">
+                            <div id="avatarPreviewPlaceholder" class="profile-avatar-preview-placeholder" style="display: none;">
+                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                            </div>
+                        @else
+                            <img src="" alt="{{ $user->name }}" id="avatarPreviewImg" class="profile-avatar-preview-img" style="display: none;">
+                            <div id="avatarPreviewPlaceholder" class="profile-avatar-preview-placeholder">
+                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                            </div>
+                        @endif
+                    </div>
+                    <div style="flex: 1;">
+                        <label class="edit-profile-label" style="margin-bottom: 4px;">Foto Profil</label>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('avatarFileInput').click()" style="border-radius: 9999px; padding: 6px 14px; font-weight: 700; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <span>Pilih Foto Baru</span>
+                            </button>
+                            <input type="file" name="avatar_file" id="avatarFileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display: none;" onchange="previewAvatar(this)">
+                        </div>
+                        <span class="edit-profile-hint">Mendukung format JPG, PNG, WEBP (maks. 3 MB).</span>
+
+                        @if($user->avatar)
+                            <div style="margin-top: 8px;">
+                                <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: #dc2626; cursor: pointer;">
+                                    <input type="checkbox" name="remove_avatar" value="1" id="checkboxRemoveAvatar">
+                                    <span>Hapus foto kustom (kembali ke avatar default)</span>
+                                </label>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Input Nama Lengkap -->
+                <div class="edit-profile-form-group">
+                    <label class="edit-profile-label">Nama Lengkap <span style="color: #ef4444;">*</span></label>
+                    <input type="text" name="name" class="edit-profile-input" value="{{ old('name', $user->name) }}" required placeholder="Masukkan nama lengkap Anda">
+                </div>
+
+                <!-- Input Email -->
+                <div class="edit-profile-form-group">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                        <label class="edit-profile-label" style="margin: 0;">Alamat Email <span style="color: #ef4444;">*</span></label>
+                        @if($user->google_id)
+                            <span style="font-size: 0.72rem; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 9999px; font-weight: 700;">Google OAuth</span>
+                        @endif
+                    </div>
+                    <input type="email" name="email" class="edit-profile-input" value="{{ old('email', $user->email) }}" {{ $user->google_id ? 'readonly' : 'required' }} placeholder="nama@email.com">
+                    @if($user->google_id)
+                        <span class="edit-profile-hint">Email terhubung dengan akun Google Anda dan tidak dapat diubah di sini.</span>
+                    @endif
+                </div>
+
+                <!-- Input Nomor Identitas & Telepon -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                    <div class="edit-profile-form-group">
+                        <label class="edit-profile-label">Nomor Identitas (NIK / NIM)</label>
+                        <input type="text" name="identity_number" class="edit-profile-input" value="{{ old('identity_number', $user->identity_number) }}" placeholder="Contoh: 327101xxxxxx / 220101xxx">
+                        <span class="edit-profile-hint">Untuk verifikasi saat peminjaman ruangan.</span>
+                    </div>
+                    <div class="edit-profile-form-group">
+                        <label class="edit-profile-label">Nomor Telepon / WhatsApp</label>
+                        <input type="tel" name="phone_number" class="edit-profile-input" value="{{ old('phone_number', $user->phone_number) }}" placeholder="Contoh: 08123456789">
+                        <span class="edit-profile-hint">Untuk konfirmasi peminjaman & notifikasi.</span>
+                    </div>
+                </div>
+
+                <!-- Accordion / Bagian Ganti Kata Sandi (Opsional) -->
+                <div style="margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 16px;">
+                    <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
+                        <div>
+                            <span style="font-size: 0.86rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <span>Ganti Kata Sandi (Opsional)</span>
+                            </span>
+                            <span class="edit-profile-hint" style="margin-top: 2px;">Kosongkan kolom berikut jika Anda tidak ingin mengganti kata sandi akun.</span>
+                        </div>
+                        <a href="{{ route('password.request', ['email' => $user->email]) }}" target="_blank" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe; transition: all 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            <span>Lupa kata sandi?</span>
+                        </a>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="edit-profile-form-group">
+                            <label class="edit-profile-label">Kata Sandi Baru</label>
+                            <div style="position: relative;">
+                                <input type="password" name="password" id="edit_password" minlength="6" class="edit-profile-input" placeholder="Minimal 6 karakter" autocomplete="new-password" style="padding-right: 38px;">
+                                <button type="button" onclick="toggleEditPassword('edit_password', this)" title="Lihat Sandi" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 2px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-open"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-closed" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="edit-profile-form-group">
+                            <label class="edit-profile-label">Konfirmasi Sandi Baru</label>
+                            <div style="position: relative;">
+                                <input type="password" name="password_confirmation" id="edit_password_confirmation" minlength="6" class="edit-profile-input" placeholder="Ulangi kata sandi baru" autocomplete="new-password" style="padding-right: 38px;">
+                                <button type="button" onclick="toggleEditPassword('edit_password_confirmation', this)" title="Lihat Sandi" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 2px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-open"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-closed" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="edit-profile-footer">
+                <button type="button" class="btn btn-outline" onclick="closeEditProfileModal()" style="border-radius: 9999px; padding: 8px 18px; font-weight: 600; font-size: 0.84rem;">
+                    Batal
+                </button>
+                <button type="submit" class="btn btn-primary" style="border-radius: 9999px; padding: 8px 22px; font-weight: 700; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Simpan Perubahan</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditProfileModal() {
+    const modal = document.getElementById('editProfileModal');
+    if (modal) {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeEditProfileModal() {
+    const modal = document.getElementById('editProfileModal');
+    if (modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+}
+
+function handleEditProfileBackdrop(e) {
+    if (e.target && e.target.id === 'editProfileModal') {
+        closeEditProfileModal();
+    }
+}
+
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 3 * 1024 * 1024) {
+            alert('Ukuran file foto maksimal 3 MB.');
+            input.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const previewImg = document.getElementById('avatarPreviewImg');
+            const previewPlaceholder = document.getElementById('avatarPreviewPlaceholder');
+            if (previewImg) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            }
+            if (previewPlaceholder) {
+                previewPlaceholder.style.display = 'none';
+            }
+            const removeCb = document.getElementById('checkboxRemoveAvatar');
+            if (removeCb) removeCb.checked = false;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function toggleEditPassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    const openEye = btn.querySelector('.eye-open');
+    const closedEye = btn.querySelector('.eye-closed');
+    if (openEye && closedEye) {
+        openEye.style.display = isPass ? 'none' : 'block';
+        closedEye.style.display = isPass ? 'block' : 'none';
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeEditProfileModal();
+    }
+});
+
+@if($errors->any())
+document.addEventListener('DOMContentLoaded', () => {
+    openEditProfileModal();
+});
+@endif
+</script>
 @endsection
 

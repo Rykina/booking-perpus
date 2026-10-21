@@ -60,9 +60,14 @@
                 </div>
 
                 <div style="margin-bottom: 18px;">
-                    <label for="customer_password" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
-                        Kata Sandi
-                    </label>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label for="customer_password" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin: 0;">
+                            Kata Sandi
+                        </label>
+                        <a href="{{ route('password.request') }}" style="font-size: 0.8rem; font-weight: 600; color: #1a73e8; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                            Lupa Kata Sandi?
+                        </a>
+                    </div>
                     <div style="position: relative;">
                         <input type="password" name="password" id="customer_password" required placeholder="Masukkan kata sandi akun"
                                style="width: 100%; padding: 11px 44px 11px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-size: 0.9rem; box-sizing: border-box; font-family: inherit;">
