@@ -1696,6 +1696,11 @@ window.openNotificationModal = function () {
     document.body.style.overflow = 'hidden';
     if (btn) btn.classList.add('active');
     window.fetchCustomerNotifications();
+
+    // Saat jendela notifikasi dibuka untuk dibaca, otomatis tandai sudah dibaca sehingga badge angka menghilang
+    setTimeout(() => {
+      window.markAllNotificationsRead(true);
+    }, 450);
   }
 };
 
@@ -1707,6 +1712,9 @@ window.closeNotificationModal = function () {
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     if (btn) btn.classList.remove('active');
+
+    // Pastikan angka notifikasi langsung menghilang setelah jendela ditutup
+    window.markAllNotificationsRead(true);
   }
 };
 
@@ -1919,7 +1927,7 @@ window.renderCustomerNotifications = function () {
     }
 
     return `
-      <div class="notif-item-card status-${item.status}">
+      <div class="notif-item-card status-${item.status}" onclick="markSingleNotificationRead('${item.booking_code}', '${item.status}', '${item.updated_at_timestamp}')">
         <div class="notif-card-top">
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="notif-badge-pill ${badgeClass}">
@@ -1937,7 +1945,7 @@ window.renderCustomerNotifications = function () {
             <span>${escapeHtml(item.room_name)}</span>
             ${item.room_floor ? `<span style="font-size:0.75rem; font-weight:600; color:#64748b;">(${escapeHtml(item.room_floor)})</span>` : ''}
           </div>
-          <button type="button" class="notif-code-copy-btn" onclick="copyBookingCode('${item.booking_code}')" title="Klik untuk menyalin kode">
+          <button type="button" class="notif-code-copy-btn" onclick="event.stopPropagation(); copyBookingCode('${item.booking_code}')" title="Klik untuk menyalin kode">
             #${item.booking_code}
           </button>
         </div>
@@ -1978,7 +1986,30 @@ window.filterCustomerNotifs = function (status, btn) {
   window.renderCustomerNotifications();
 };
 
-window.markAllNotificationsRead = function () {
+window.markSingleNotificationRead = function (bookingCode, status, timestamp) {
+  let readNotifs = [];
+  try {
+    const raw = localStorage.getItem('customer_read_notifs');
+    readNotifs = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(readNotifs)) readNotifs = [];
+  } catch (e) {
+    readNotifs = [];
+  }
+
+  const key = `${bookingCode}_${status}_${timestamp}`;
+  const simpleKey = `${bookingCode}_${status}`;
+  if (!readNotifs.includes(key)) readNotifs.push(key);
+  if (!readNotifs.includes(simpleKey)) readNotifs.push(simpleKey);
+
+  try {
+    localStorage.setItem('customer_read_notifs', JSON.stringify(readNotifs.slice(-150)));
+  } catch (e) {}
+
+  window.updateCustomerNotifBadgeCount();
+  window.renderCustomerNotifications();
+};
+
+window.markAllNotificationsRead = function (silent = false) {
   let readNotifs = [];
   try {
     const raw = localStorage.getItem('customer_read_notifs');
@@ -1990,19 +2021,23 @@ window.markAllNotificationsRead = function () {
 
   _customerNotifsData.forEach(item => {
     const key = `${item.booking_code}_${item.status}_${item.updated_at_timestamp}`;
+    const simpleKey = `${item.booking_code}_${item.status}`;
     if (!readNotifs.includes(key)) {
       readNotifs.push(key);
+    }
+    if (!readNotifs.includes(simpleKey)) {
+      readNotifs.push(simpleKey);
     }
   });
 
   try {
-    localStorage.setItem('customer_read_notifs', JSON.stringify(readNotifs.slice(-100)));
+    localStorage.setItem('customer_read_notifs', JSON.stringify(readNotifs.slice(-150)));
   } catch (e) {}
 
   window.updateCustomerNotifBadgeCount();
   window.renderCustomerNotifications();
 
-  if (typeof showToast === 'function') {
+  if (!silent && typeof showToast === 'function') {
     showToast('Semua notifikasi ditandai sudah dilihat.');
   }
 };
@@ -2024,11 +2059,11 @@ window.updateCustomerNotifBadgeCount = function () {
 
   const unreadItems = _customerNotifsData.filter(item => {
     const key = `${item.booking_code}_${item.status}_${item.updated_at_timestamp}`;
-    return !readNotifs.includes(key) && (item.status === 'disetujui' || item.status === 'ditolak');
+    const simpleKey = `${item.booking_code}_${item.status}`;
+    return !readNotifs.includes(key) && !readNotifs.includes(simpleKey);
   });
 
   const unreadCount = unreadItems.length;
-  const totalCount = _customerNotifsData.length;
 
   if (unreadCount > 0) {
     if (headerBadge) {
@@ -2043,24 +2078,20 @@ window.updateCustomerNotifBadgeCount = function () {
       mobileBadge.classList.add('has-unread');
       mobileBadge.style.display = 'inline-flex';
     }
-  } else if (totalCount > 0) {
+  } else {
+    // JIKA SUDAH DIBACA: ANGKA & BADGE NOTIFIKASI MENGHILANG TOTAL
     if (headerBadge) {
-      headerBadge.textContent = totalCount;
+      headerBadge.textContent = '0';
       headerBadge.classList.remove('has-unread');
-      headerBadge.style.display = 'inline-flex';
+      headerBadge.style.display = 'none';
     }
     if (pulseDot) pulseDot.style.display = 'none';
     if (headerPulse) headerPulse.style.display = 'none';
     if (mobileBadge) {
-      mobileBadge.textContent = totalCount;
+      mobileBadge.textContent = '0';
       mobileBadge.classList.remove('has-unread');
-      mobileBadge.style.display = 'inline-flex';
+      mobileBadge.style.display = 'none';
     }
-  } else {
-    if (headerBadge) headerBadge.style.display = 'none';
-    if (pulseDot) pulseDot.style.display = 'none';
-    if (headerPulse) headerPulse.style.display = 'none';
-    if (mobileBadge) mobileBadge.style.display = 'none';
   }
 };
 

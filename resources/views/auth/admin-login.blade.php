@@ -70,7 +70,10 @@
 
                 <div style="margin-bottom: 20px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">Kata Sandi</label>
+                        <label style="font-size: 0.82rem; font-weight: 700; color: #334155; margin: 0;">Kata Sandi</label>
+                        <a href="{{ route('password.request') }}" style="font-size: 0.8rem; font-weight: 600; color: #1a73e8; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                            Lupa Kata Sandi?
+                        </a>
                     </div>
                     <div style="position: relative;">
                         <input type="password" name="password" id="admin_password" required value="" placeholder="Masukkan kata sandi"
