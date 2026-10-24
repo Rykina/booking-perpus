@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kode OTP Verifikasi Reset Kata Sandi</title>
+    <title>{{ $title ?? 'Kode OTP Verifikasi Keamanan Akun' }}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f1f5f9; padding: 40px 15px;">
@@ -31,7 +31,7 @@
                                 Halo, {{ $user->name }}
                             </p>
                             <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #475569;">
-                                Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda. Untuk melindungi akun Anda dari akses yang tidak sah, gunakan 6 digit kode OTP verifikasi berikut:
+                                {{ $description ?? 'Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda. Untuk melindungi akun Anda dari akses yang tidak sah, gunakan 6 digit kode OTP verifikasi berikut:' }}
                             </p>
 
                             <!-- OTP Box -->

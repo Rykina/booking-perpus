@@ -368,25 +368,19 @@
 
                 <!-- Accordion / Bagian Ganti Kata Sandi (Opsional) -->
                 <div style="margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 16px;">
-                    <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px;">
-                        <div>
-                            <span style="font-size: 0.86rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <span>Ganti Kata Sandi (Opsional)</span>
-                            </span>
-                            <span class="edit-profile-hint" style="margin-top: 2px;">Kosongkan kolom berikut jika Anda tidak ingin mengganti kata sandi akun.</span>
-                        </div>
-                        <a href="{{ route('password.request', ['email' => $user->email]) }}" target="_blank" style="font-size: 0.8rem; font-weight: 700; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe; transition: all 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                            <span>Lupa kata sandi?</span>
-                        </a>
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 0.86rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span>Ganti Kata Sandi (Opsional)</span>
+                        </span>
+                        <span class="edit-profile-hint" style="margin-top: 2px;">Kosongkan kolom berikut jika Anda tidak ingin mengganti kata sandi akun.</span>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                         <div class="edit-profile-form-group">
                             <label class="edit-profile-label">Kata Sandi Baru</label>
                             <div style="position: relative;">
-                                <input type="password" name="password" id="edit_password" minlength="6" class="edit-profile-input" placeholder="Minimal 6 karakter" autocomplete="new-password" style="padding-right: 38px;">
+                                <input type="password" name="password" id="edit_password" minlength="6" class="edit-profile-input" placeholder="Minimal 6 karakter" autocomplete="new-password" style="padding-right: 38px;" oninput="handlePasswordChangeInput()">
                                 <button type="button" onclick="toggleEditPassword('edit_password', this)" title="Lihat Sandi" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 2px;">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-open"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-closed" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -396,13 +390,38 @@
                         <div class="edit-profile-form-group">
                             <label class="edit-profile-label">Konfirmasi Sandi Baru</label>
                             <div style="position: relative;">
-                                <input type="password" name="password_confirmation" id="edit_password_confirmation" minlength="6" class="edit-profile-input" placeholder="Ulangi kata sandi baru" autocomplete="new-password" style="padding-right: 38px;">
+                                <input type="password" name="password_confirmation" id="edit_password_confirmation" minlength="6" class="edit-profile-input" placeholder="Ulangi kata sandi baru" autocomplete="new-password" style="padding-right: 38px;" oninput="handlePasswordChangeInput()">
                                 <button type="button" onclick="toggleEditPassword('edit_password_confirmation', this)" title="Lihat Sandi" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 2px;">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-open"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-closed" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
                                 </button>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Kotak Verifikasi OTP Khusus Ganti Kata Sandi -->
+                    <div id="otpSectionWrapper" style="margin-top: 14px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 14px; display: none;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <label class="edit-profile-label" style="margin: 0; font-size: 0.82rem; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                <span>Verifikasi OTP Ganti Kata Sandi <span style="color: #ef4444;">*</span></span>
+                            </label>
+                            <span style="font-size: 0.72rem; color: #2563eb; font-weight: 700; background: #eff6ff; padding: 2px 8px; border-radius: 9999px;">Wajib</span>
+                        </div>
+                        <p style="font-size: 0.76rem; color: #64748b; margin: 0 0 10px 0; line-height: 1.4;">
+                            Untuk perlindungan akun, klik tombol <strong>Kirim Kode OTP</strong> di bawah untuk menerima 6 digit kode keamanan ke email Anda (<strong>{{ $user->email }}</strong>).
+                        </p>
+                        
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <input type="text" name="otp_code" id="edit_profile_otp" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" class="edit-profile-input" placeholder="000000" style="max-width: 150px; font-family: monospace; letter-spacing: 5px; font-weight: 800; font-size: 1.05rem; text-align: center; height: 38px; margin: 0;">
+                            
+                            <button type="button" id="btnSendProfileOtp" onclick="sendProfileOtp()" class="btn btn-primary" style="height: 38px; padding: 0 16px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconSendOtp"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                <span id="textSendProfileOtp">Kirim Kode OTP</span>
+                            </button>
+                        </div>
+                        
+                        <div id="otpStatusAlert" style="margin-top: 8px; font-size: 0.78rem; display: none; line-height: 1.4;"></div>
                     </div>
                 </div>
             </div>
@@ -485,6 +504,111 @@ function toggleEditPassword(inputId, btn) {
     }
 }
 
+function handlePasswordChangeInput() {
+    const pwd = document.getElementById('edit_password');
+    const pwdConfirm = document.getElementById('edit_password_confirmation');
+    const otpWrapper = document.getElementById('otpSectionWrapper');
+    const otpInput = document.getElementById('edit_profile_otp');
+
+    const hasValue = (pwd && pwd.value.trim().length > 0) || (pwdConfirm && pwdConfirm.value.trim().length > 0);
+
+    if (otpWrapper) {
+        if (hasValue) {
+            otpWrapper.style.display = 'block';
+            if (otpInput) otpInput.setAttribute('required', 'required');
+        } else {
+            otpWrapper.style.display = 'none';
+            if (otpInput) {
+                otpInput.removeAttribute('required');
+                otpInput.value = '';
+            }
+        }
+    }
+}
+
+let otpCountdownTimer = null;
+
+function sendProfileOtp() {
+    const btn = document.getElementById('btnSendProfileOtp');
+    const btnText = document.getElementById('textSendProfileOtp');
+    const statusAlert = document.getElementById('otpStatusAlert');
+    const otpInput = document.getElementById('edit_profile_otp');
+
+    if (!btn || btn.disabled) return;
+
+    btn.disabled = true;
+    btnText.textContent = 'Mengirim...';
+    statusAlert.style.display = 'block';
+    statusAlert.style.color = '#2563eb';
+    statusAlert.innerHTML = 'Sedang mengirimkan kode OTP ke email Anda...';
+
+    fetch("{{ route('pelanggan.profile.send_otp') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            statusAlert.style.color = '#16a34a';
+            statusAlert.innerHTML = '✓ ' + data.message;
+            if (otpInput) otpInput.focus();
+
+            // Hitung mundur 60 detik untuk kirim ulang
+            let remaining = 60;
+            btnText.textContent = `Kirim Ulang (${remaining}s)`;
+            clearInterval(otpCountdownTimer);
+            otpCountdownTimer = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(otpCountdownTimer);
+                    btn.disabled = false;
+                    btnText.textContent = 'Kirim Ulang OTP';
+                } else {
+                    btnText.textContent = `Kirim Ulang (${remaining}s)`;
+                }
+            }, 1000);
+        } else {
+            btn.disabled = false;
+            btnText.textContent = 'Kirim Kode OTP';
+            statusAlert.style.color = '#dc2626';
+            statusAlert.innerHTML = '✕ ' + (data.message || 'Gagal mengirim OTP. Silakan coba kembali.');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btnText.textContent = 'Kirim Kode OTP';
+        statusAlert.style.color = '#dc2626';
+        statusAlert.innerHTML = '✕ Terjadi gangguan koneksi. Pastikan internet aktif dan coba lagi.';
+    });
+}
+
+const formEditProfile = document.getElementById('formEditProfile');
+if (formEditProfile) {
+    formEditProfile.addEventListener('submit', function(e) {
+        const pwd = document.getElementById('edit_password');
+        const otpInput = document.getElementById('edit_profile_otp');
+        if (pwd && pwd.value.trim().length > 0) {
+            if (!otpInput || otpInput.value.trim().length !== 6) {
+                e.preventDefault();
+                const statusAlert = document.getElementById('otpStatusAlert');
+                if (statusAlert) {
+                    statusAlert.style.display = 'block';
+                    statusAlert.style.color = '#dc2626';
+                    statusAlert.innerHTML = '✕ Silakan klik "Kirim Kode OTP" dan masukkan 6 digit kode OTP dari email Anda.';
+                }
+                if (otpInput) {
+                    otpInput.focus();
+                }
+                return false;
+            }
+        }
+    });
+}
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeEditProfileModal();
@@ -494,6 +618,19 @@ document.addEventListener('keydown', (e) => {
 @if($errors->any())
 document.addEventListener('DOMContentLoaded', () => {
     openEditProfileModal();
+    @if($errors->has('otp_code') || $errors->has('password') || old('otp_code'))
+        handlePasswordChangeInput();
+        const otpWrapper = document.getElementById('otpSectionWrapper');
+        if (otpWrapper) otpWrapper.style.display = 'block';
+        @if($errors->has('otp_code'))
+            const statusAlert = document.getElementById('otpStatusAlert');
+            if (statusAlert) {
+                statusAlert.style.display = 'block';
+                statusAlert.style.color = '#dc2626';
+                statusAlert.innerHTML = '✕ {{ $errors->first('otp_code') }}';
+            }
+        @endif
+    @endif
 });
 @endif
 </script>

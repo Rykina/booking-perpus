@@ -74,6 +74,25 @@
             gap: 12px !important;
             width: 100% !important;
             box-sizing: border-box !important;
+            position: relative !important;
+        }
+
+        /* Saat Belum Login: Menu Navigasi diletakkan Presisi 100% DEAD-CENTER di tengah layar */
+        .navbar .nav-inner.is-guest .nav-center {
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            z-index: 10 !important;
+        }
+
+        /* Saat Sudah Login: Menu Navigasi bergeser rapi agar serasi berdampingan dengan profil */
+        .navbar .nav-inner.is-auth .nav-center {
+            position: static !important;
+            transform: none !important;
+            margin: 0 auto !important;
+            flex: 0 0 auto !important;
         }
 
         .brand {
@@ -81,6 +100,7 @@
             align-items: center !important;
             gap: 8px !important;
             text-decoration: none !important;
+            flex: 0 0 auto !important;
             flex-shrink: 0 !important;
         }
 
@@ -88,9 +108,9 @@
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            flex: 1 1 auto !important;
+            flex: 0 0 auto !important;
+            margin: 0 auto !important;
             min-width: 0 !important;
-            margin: 0 !important;
         }
 
         .nav-links {
@@ -144,6 +164,7 @@
             justify-content: flex-end !important;
             gap: 6px !important;
             white-space: nowrap !important;
+            flex: 0 0 auto !important;
             flex-shrink: 0 !important;
         }
 
@@ -337,31 +358,60 @@
             color: #ef4444 !important;
         }
 
-        @media (max-width: 1400px) {
-            .btn-text-nav {
-                display: none !important;
-            }
+        /* Utility Action Buttons: Clean & Compact Icon Pills (Zero Collision) */
+        .btn-text-nav {
+            display: none !important;
+        }
 
-            .btn-search-pill,
-            .btn-history-pill {
-                padding: 5px 9px !important;
+        .btn-logout-text {
+            display: none !important;
+        }
+
+        .btn-search-pill,
+        .btn-history-pill,
+        .btn-notification-pill {
+            padding: 5px 9px !important;
+            height: 32px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .btn-logout-pill {
+            padding: 3px 6px !important;
+            height: 24px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .user-name-label {
+            max-width: 80px !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+
+        /* Show full text labels only on very large displays (>= 1650px) */
+        @media (min-width: 1650px) {
+            .btn-text-nav {
+                display: inline !important;
             }
 
             .btn-logout-text {
-                display: none !important;
+                display: inline !important;
             }
 
-            .btn-logout-pill {
-                padding: 4px 6px !important;
+            .btn-search-pill,
+            .btn-history-pill,
+            .btn-notification-pill {
+                padding: 5px 12px !important;
             }
 
-            .nav-links {
-                gap: 2px !important;
-            }
-
-            .nav-link {
-                padding: 4px 9px !important;
-                font-size: 0.79rem !important;
+            .user-name-label {
+                max-width: 130px !important;
             }
         }
 
@@ -384,7 +434,7 @@
             }
 
             .user-name-label {
-                max-width: 65px !important;
+                max-width: 60px !important;
             }
         }
 
@@ -395,6 +445,8 @@
                 align-items: center !important;
             }
 
+            .navbar .nav-inner.is-guest .nav-center,
+            .navbar .nav-inner.is-auth .nav-center,
             .nav-center {
                 display: none !important;
             }
@@ -417,7 +469,7 @@
 
     <!-- Header Navigation -->
     <header class="navbar" id="mainNavbar">
-        <div class="container nav-inner">
+        <div class="container nav-inner {{ Auth::check() ? 'is-auth' : 'is-guest' }}">
             <a href="{{ route('booking.index') }}" class="brand" id="navBrandLink">
                 <div class="brand-logo-icon">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a73e8"

@@ -160,7 +160,7 @@ img {
 }
 
 .navbar .container {
-  max-width: 1400px;
+  max-width: 100%;
   width: 100%;
   padding-left: 24px;
   padding-right: 24px;

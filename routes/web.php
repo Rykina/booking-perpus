@@ -94,6 +94,7 @@ Route::match(['get', 'post'], '/pelanggan/logout', [GoogleController::class, 'lo
 */
 Route::middleware('auth')->group(function () {
     Route::get('/pelanggan', [\App\Http\Controllers\CustomerController::class, 'dashboard'])->name('pelanggan.dashboard');
+    Route::post('/pelanggan/profil/kirim-otp', [\App\Http\Controllers\CustomerController::class, 'sendProfileOtp'])->name('pelanggan.profile.send_otp');
     Route::match(['post', 'put'], '/pelanggan/profil', [\App\Http\Controllers\CustomerController::class, 'updateProfile'])->name('pelanggan.profile.update');
     Route::get('/chat/conversation', [ChatController::class, 'getCustomerConversation'])->name('chat.conversation');
     Route::post('/chat/send', [ChatController::class, 'customerSendMessage'])->name('chat.send');
